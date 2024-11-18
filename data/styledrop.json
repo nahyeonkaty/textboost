@@ -1,0 +1,186 @@
+{
+  "0": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1578926078693-4eb3d4499e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2008&q=80",
+      "token": "watercolor",
+      "caption": "A canyon in watercolor painting style",
+      "template": "A canyon in {} style"
+    }
+  },
+  "1": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1578927107994-75410e4dcd51?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=729&q=80",
+      "token": "watercolor",
+      "caption": "A house in watercolor painting style",
+      "template": "A house in {} style"
+    }
+  },
+  "2": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1612760721786-a42eb89aba02?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80",
+      "token": "watercolor",
+      "caption": "A cat in watercolor painting style",
+      "template": "A cat in {} style"
+    }
+  },
+  "3": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1630476504743-a4d342f88760?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1895&q=80",
+      "token": "watercolor",
+      "caption": "Flowers in watercolor painting style",
+      "template": "Flowers in {} style"
+    }
+  },
+  "4": {
+    "0": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/66/VanGogh-starry_night_ballance1.jpg",
+      "token": "oil",
+      "caption": "A village in oil painting style",
+      "template": "A village in {} style"
+    }
+  },
+  "5": {
+    "0": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Van_Gogh_Starry_Night_Drawing.jpg",
+      "token": "drawing",
+      "caption": "A village in line drawing style",
+      "template": "A village in {} style"
+    }
+  },
+  "6": {
+    "0": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/1024px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg",
+      "token": "oil painting",
+      "caption": "A portrait of a man in oil painting style",
+      "template": "A portrait of a man in {} style"
+    }
+  },
+  "7": {
+    "0": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg/1024px-Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg",
+      "token": "oil painting",
+      "caption": "A portrait of a person wearing a hat in oil painting style",
+      "template": "A portrait of a person wearing a hat in {} style"
+    }
+  },
+  "8": {
+    "0": {
+      "url": "https://img.freepik.com/free-vector/young-woman-walking-dog-leash-girl-leading-pet-park-flat-illustration_74855-11306.jpg?w=996&t=st=1685117377~exp=1685117977~hmac=dd6cf9856bdac8715c1d5464875225286942da2a01ea3851ea3936dd95d96a44",
+      "token": "flat",
+      "caption": "A woman walking a dog in flat cartoon illustration style",
+      "template": "A woman walking a dog in {} style"
+    }
+  },
+  "9": {
+    "0": {
+      "url": "https://img.freepik.com/free-vector/biophilic-design-workspace-abstract-concept_335657-3081.jpg?w=996&t=st=1685117412~exp=1685118012~hmac=cc89e22bd6dbeb3c2fc06396035863e612149b04ed6dee90791292a7151a4dd2",
+      "token": "flat",
+      "caption": "A woman working on a laptop in flat cartoon illustration style",
+      "template": "A woman working on a laptop in {} style"
+    }
+  },
+  "10": {
+    "0": {
+      "url": "https://img.freepik.com/free-vector/pine-tree-sticker-white-background_1308-75956.jpg?w=826&t=st=1685117428~exp=1685118028~hmac=36f37f710de7b4b7320d32dc169459f0bd0d6081e94e972198ab8d0a479f67e2",
+      "token": "sticker",
+      "caption": "A Christmas tree in sticker style",
+      "template": "A Christmas tree in {} style"
+    }
+  },
+  "11": {
+    "0": {
+      "url": "https://img.freepik.com/free-psd/abstract-background-design_1297-124.jpg?w=996&t=st=1685117527~exp=1685118127~hmac=08c82ea8b2087dff81e01c946f999ed6bfb286a222c09e396b4d3f46787b2b50",
+      "token": "abstract",
+      "caption": "A wave in abstract rainbow colored flowing smoke wave design",
+      "template": "A wave in {} style"
+    }
+  },
+  "12": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1538836026403-e143e8a59f04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1448&q=80",
+      "token": "glowing",
+      "caption": "A mushroom in glowing style",
+      "template": "A mushroom in {} style"
+    }
+  },
+  "13": {
+    "0": {
+      "url": "https://images.rawpixel.com/image_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvZnJydWluX3dpbmRvd19kZWNheV9sZWF2ZS1pbWFnZS1reWNmbmM5aC5qcGc.jpg",
+      "token": "drawing",
+      "caption": "a cat sits in front of a window in drawing style",
+      "template": "a cat sits in front of a window in {} style"
+    }
+  },
+  "14": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1518562180175-34a163b1a9a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+      "token": "artistic",
+      "caption": "a path through the woods with trees and fog in artisitc style",
+      "template": "a path through the woods with trees and fog in {} style"
+    }
+  },
+  "15": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1654648663068-0093ade5069e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+      "token": "3d rendering",
+      "caption": "Slices of watermelon and clouds in the background in 3d rendering style",
+      "template": "Slices of watermelon and clouds in the background in {} style"
+    }
+  },
+  "16": {
+    "0": {
+      "url": "https://img.freepik.com/free-psd/three-dimensional-real-estate-icon-mock-up_23-2149729145.jpg?w=996&t=st=1685117577~exp=1685118177~hmac=2d789df87b156c2e5578c8ddb69e4a3b3176206f81b774d9faea7492a4eafc0f",
+      "token": "3d rendering",
+      "caption": "A house in 3d rendering style",
+      "template": "A house in {} style"
+    }
+  },
+  "17": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1644664477908-f8c4b1d215c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80",
+      "token": "glowing",
+      "caption": "A thumbs up in glowing 3d rendering style",
+      "template": "A thumbs up in {} style"
+    }
+  },
+  "18": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1634926878768-2a5b3c42f139?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=912&q=80",
+      "token": "3d rendering",
+      "caption": "A woman in 3d rendering style",
+      "template": "A woman in {} style"
+    }
+  },
+  "19": {
+    "0": {
+      "url": "https://github.com/styledrop/styledrop.github.io/blob/main/images/assets/image_6487327_crayon_02.jpg?raw=true",
+      "token": "crayon",
+      "caption": "A bear in kid crayon drawing style",
+      "template": "A bear in {} style"
+    }
+  },
+  "20": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1668090956076-b2c9d6193e6b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80",
+      "token": "silver",
+      "caption": "a statue of a man's head in silver style",
+      "template": "a statue of a man's head in {} style"
+    }
+  },
+  "21": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1637234852730-677079a9d718?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80",
+      "token": "golden",
+      "caption": "A flower in melting golden 3d rendering style",
+      "template": "A flower in {} style"
+    }
+  },
+  "22": {
+    "0": {
+      "url": "https://images.unsplash.com/photo-1636391891394-56a534be9a1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+      "token": "wooden",
+      "caption": "A Viking face with beard in wooden sculpture",
+      "template": "A Viking face with beard in {} style"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+data/dreambooth_n1_train/
+data/dreambooth_n1_val/
+data/human-written-prompts.jsonl
+dreambooth/
+
+ckpt/
+hf_cache/
+download_data.sh
+*.sh
+
+# Symlinks
+benchmarks
+datasets
+output
+*.ipynb

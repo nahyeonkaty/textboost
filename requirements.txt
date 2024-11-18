@@ -1,0 +1,12 @@
+torch~=2.4.1
+torchvision~=0.19.1
+accelerate~=0.32.0
+diffusers~=0.29.0
+transformers~=4.40.2
+peft~=0.13.2
+numpy
+scipy
+tqdm
+git+https://github.com/openai/CLIP.git
+image-reward
+t2v-metrics
