@@ -417,7 +417,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--template",
         type=str,
-        default="tepa",
+        default="textboost",
     )
     parser.add_argument(
         "--mixing",
@@ -999,6 +999,23 @@ def main(args):
     train_iterator = iter(train_dataloader)
     prior_iterator = iter(prior_dataloader)
 
+    # Compute max text embedding norm.
+    with torch.no_grad():
+        input_embeddings = (
+            accelerator.unwrap_model(text_encoder)
+            .get_input_embeddings()
+            .weight
+            .detach()
+        )  # (num_tokens, hidden_size)
+        max_norm = -1.0
+        # Last two tokens are the <start> and <end> tokens.
+        for emb in input_embeddings[:min(added_token_ids)-2]:
+            norm = emb.norm().item()
+            if norm > max_norm:
+                max_norm = norm
+        accelerator.log({"max_norm": max_norm}, step=0)
+        print("Max norm:", max_norm)
+
     start_time = time.perf_counter()
     while step < args.max_train_steps:
         batch = next(train_iterator)
@@ -1112,6 +1129,18 @@ def main(args):
             lr_scheduler.step()
             optimizer.zero_grad(set_to_none=True)
 
+            with torch.no_grad():
+                if hasattr(text_encoder, "module"):
+                    input_embeddings = text_encoder.module.get_input_embeddings()
+                else:
+                    input_embeddings = text_encoder.get_input_embeddings()
+                added_embeddings = input_embeddings.weight[added_token_ids]
+                v_norm = torch.norm(added_embeddings.detach(), dim=-1, keepdim=True)
+                scale = torch.minimum(max_norm * torch.ones_like(v_norm), v_norm)
+                input_embeddings.weight.data[added_token_ids] = (
+                    (scale / v_norm) * added_embeddings
+                )
+                accelerator.log({"added_embedding_norm": v_norm.mean()}, step=step)
 
         # Checks if the accelerator has performed an optimization step behind the scenes.
         if accelerator.sync_gradients:

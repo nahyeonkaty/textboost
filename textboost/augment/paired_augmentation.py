@@ -252,9 +252,9 @@ def square_photo_collage(image, prompt, inversion=False):
     image = Image.fromarray(grid)
 
     if inversion:
-        prompt = "<grid_0> <grid_1> " + prompt
+        prompt = "<collage_0> <collage_1> " + prompt
     else:
-        prompt = "grid of " + prompt
+        prompt = "photo collage of " + prompt
     return image, prompt
 
 

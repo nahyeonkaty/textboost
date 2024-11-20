@@ -179,6 +179,7 @@ def add_augmentation_tokens(
             "<grayscale>": "grayscale",  # 2
             "<zoom-in>": "zoom in",  # 2
             "<zoom-out>": "far away",  # 2
+            "<collage>": "photo collage",  # 2
             "<bright>": "bright",
             "<dimmed>": "dark",
             "<hflip>": "flip",
@@ -186,7 +187,6 @@ def add_augmentation_tokens(
             "<cutout>": "hole",
             "<left>": "on the left",  # 3
             "<right>": "on the right",  # 3
-            "<grid>": "grid of",  # 2
         }
     else:
         augmentations = {

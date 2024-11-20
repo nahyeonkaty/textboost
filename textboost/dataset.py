@@ -63,16 +63,16 @@ imagenet_style_templates_small = [
 ]
 
 textboost_templates = [
-    # "{}",
-    # "a {}",
-    # "one {}"
-    # "the {}",
-    # "photo of a {}",
-    "{} with background",
-    "a {} with background",
-    # "one {} with background"
-    "the {} with background",
-    "photo of a {} with background",
+    "{}",
+    "a {}",
+    "one {}",
+    "the {}",
+    "photo of a {}",
+    # "{} with background",
+    # "a {} with background",
+    # "one {} with background",
+    # "the {} with background",
+    # "photo of a {} with background",
 ]
 
 
@@ -214,8 +214,7 @@ class PriorDataset(torch.utils.data.Dataset):
             template = {
                 "imagenet_small": imagenet_templates_small,
                 "imagenet_style_small": imagenet_style_templates_small,
-                "tb": textboost_templates,
-                "tepa": textboost_templates,
+                "textboost": textboost_templates,
             }[additional_template]
         except:
             template = [additional_template]
@@ -288,7 +287,6 @@ class TextBoostDataset(torch.utils.data.Dataset):
                 "imagenet_small": imagenet_templates_small,
                 "imagenet_style_small": imagenet_style_templates_small,
                 "textboost": textboost_templates,
-                "tepa": textboost_templates,
             }[template]
         except:
             self.template = [template]
@@ -454,7 +452,7 @@ class JsonDataset(torch.utils.data.Dataset):
             self.template = {
                 "imagenet_small": imagenet_templates_small,
                 "imagenet_style_small": imagenet_style_templates_small,
-                "tepa": textboost_templates,
+                "textboost": textboost_templates,
             }[template]
         except:
             self.template = [template]

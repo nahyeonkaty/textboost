@@ -1,17 +1,14 @@
 name: textboost
 channels:
-  - pytorch
-  - nvidia
   - defaults
 dependencies:
   - python>=3.8, <3.12
   - pip
-  - pytorch=2.4.1
-  - torchvision=0.19.1
-  - pytorch-cuda=12.1
   - scipy
   - tqdm
   - pip:
+    - torch~=2.4.1
+    - torchvision~=0.19.1
     - accelerate~=0.32.0
     - diffusers~=0.29.0
     - transformers~=4.40.2

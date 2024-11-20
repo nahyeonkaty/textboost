@@ -6,7 +6,7 @@ import subprocess
 # subject_name, class, init_token
 INSTANCES = [
     ("backpack", "backpack", "red"),
-    ("backpack_dog", "backpack", "dog"),
+    ("backpack_dog", "backpack", "character"),
     ("bear_plushie", "stuffed animal", "bear"),
     ("berry_bowl", "bowl", "white"),
     ("can", "can", "beer"),
@@ -40,7 +40,7 @@ INSTANCES = [
 def parse_args():
     parser = argparse.ArgumentParser(description='Run TextBoost experiment')
     parser.add_argument("-g", "--gpu", type=str, default="0")
-    parser.add_argument("-n", "--num-samples", type=int, default=None)
+    parser.add_argument("-n", "--num-samples", type=int, default=1)
     parser.add_argument("-m", "--model", type=str, default="sd21base")
     parser.add_argument("--instances", type=str, nargs="+", default=None)
 
@@ -109,10 +109,11 @@ def main(args):
         f"--nproc-per-node={num_gpu}",
     ]
     for name, cls, init_token in instances:
-        if init_token is None:
-            init_token = cls
-        # else:
-        #     init_token = f"{init_token} {cls}"
+        # if init_token is None:
+        #     init_token = cls
+        # identifier = f"<0> {cls}"
+        init_token = cls
+        identifier = "<0>"
         cmd = [
             "train_textboost.py",
             f"--pretrained_model_name_or_path={args.model}",
@@ -121,15 +122,15 @@ def main(args):
             f"--class_token={cls}",
             # f"--instance_token=<{name}> {cls}",
             # f"--validation_prompt=a <{name}> {cls} in the jungle",
-            f"--instance_token=<0> {cls}",
-            f"--validation_prompts",
-            f"photo of a <0> {cls}",
-            f"a <0> {cls} in the jungle",
-            f"a <0> {cls} in the bucket",
-            f"painting of a <0> {cls} in the Monet style",
+            f"--instance_token={identifier}",
             f"--validation_steps={args.total_steps // 5}",
-            f"--placeholder_token=<{name}>",
+            f"--placeholder_token=<{name}>",  # Name of the token
             f"--initializer_token={init_token}",
+            f"--validation_prompts",
+            f"photo of a {identifier}",
+            f"a {identifier} in the jungle",
+            f"a {identifier} in the bucket",
+            f"painting of a {identifier} in the Monet style",
             f"--resolution={resolution}",
             f"--lora_rank={args.lora_rank}",
             f"--learning_rate={args.lr}",

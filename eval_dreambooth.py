@@ -26,7 +26,7 @@ parser.add_argument("path", type=str, help="path to model")
 parser.add_argument(
     "--token-format",
     type=str,
-    default="sks SUBJECT",
+    default="<INSTANCE> SUBJECT",
     help=(
         "Token format for the prompt ",
         "[sks SUBJECT] for DreamBooth models, ",
@@ -47,10 +47,10 @@ parser.add_argument("--model", type=str, default=None)
 parser.add_argument("--output-desc", type=str, default=None)
 
 STABLE_DIFFUSION = {
-    "sd1.4": "CompVis/stable-diffusion-v1-4",
-    # "sd1.5": "runwayml/stable-diffusion-v1-5",
-    "sd1.5": "stable-diffusion-v1-5/stable-diffusion-v1-5",
-    "sd2.1": "stabilityai/stable-diffusion-2-1",
+    "sd14": "CompVis/stable-diffusion-v1-4",
+    "sd15": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+    "sd21base": "stabilityai/stable-diffusion-2-1-base",
+    "sd21": "stabilityai/stable-diffusion-2-1",
 }
 
 INSTANCES = {
@@ -248,7 +248,11 @@ def load_customdiffusion_pipeline(pipeline, model_path):
 
 
 def load_textboost_pipeline(pipeline, model_path):
-    if "checkpoint" in model_path:
+    try:
+        text_encoder_path = os.path.join(model_path, "text_encoder")
+        pipeline.text_encoder.load_adapter(text_encoder_path)
+        print("Loaded text encoder LoRA weights")
+    except:
         lora_state_dict, _ = LoraLoaderMixin.lora_state_dict(model_path)
         text_encoder_state_dict = {
             f'{k.replace("text_encoder.", "")}': v
@@ -275,16 +279,6 @@ def load_textboost_pipeline(pipeline, model_path):
             if unexpected_keys:
                 print(f"Unexpected keys in the state dict: {unexpected_keys}")
         print("Loaded text encoder LoRA weights from checkpoint")
-    else:
-        text_encoder_path = os.path.join(model_path, "text_encoder")
-        if "adapter_config.json" in os.listdir(text_encoder_path):
-            pipeline.text_encoder.load_adapter(text_encoder_path)
-            print("Loaded text encoder LoRA weights")
-        else:
-            pipeline.text_encoder = CLIPTextModel.from_pretrained(
-                model_path, subfolder="text_encoder",
-            )
-            print("Loaded text encoder weights")
 
     # Load learned embeddings
     embeddings = list(filter(lambda x: x.endswith(".bin"), os.listdir(model_path)))
@@ -434,14 +428,17 @@ def generate(args, device):
     if args.model is not None:
         model = args.model
         size = 64
-    elif "sd1.4" in args.path:
-        model = "sd1.4"
+    elif "sd14" in args.path:
+        model = "sd14"
         size = 64
-    elif "sd1.5" in args.path:
-        model = "sd1.5"
+    elif "sd15" in args.path:
+        model = "sd15"
         size = 64
-    elif "sd2.1" in args.path:
-        model = "sd2.1"
+    elif "sd21base" in args.path:
+        model = "sd21base"
+        size = 64
+    elif "sd21" in args.path:
+        model = "sd21"
         size = 96
 
     for instance in tqdm(instances):
