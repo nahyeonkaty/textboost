@@ -343,6 +343,7 @@ def generate_from_pipeline(
         pipeline,
         instance,
         size,
+        identifier,
         token_format,
         seed,
         outdir,
@@ -355,16 +356,13 @@ def generate_from_pipeline(
     if outdir.endswith("/"):
         outdir = outdir[:-1]
 
-    identifier = token_format.format(INSTANCES[instance])
-    identifier = identifier.replace("INSTANCE", instance)
-    identifier = identifier.replace("SUBJECT", INSTANCES[instance])
     cls = INSTANCES[instance]
 
     generator = torch.Generator(device=device)
     generator.manual_seed(seed)
-    latent = torch.randn(1, 4, size, size, dtype=pipeline.dtype, device=device)
-
     print(f"[seed {seed} - Identifiers: {identifier}")
+
+    latent = torch.randn(1, 4, size, size, dtype=pipeline.dtype, device=device)
 
     i = 0
     while i < len(prompt_list):
@@ -451,15 +449,28 @@ def generate(args, device):
         )
         pipeline = pipeline.to(device)
         print(pipeline.tokenizer)
+
+        # identifier = identifier.format(INSTANCES[instance])
+        files = os.listdir(model_path)
+        num_vectors = len(list(filter(lambda x: x.startswith(instance), files)))
+        identifier = args.token_format.replace("INSTANCE", instance)
+        if num_vectors is not None:
+            tokens = []
+            for i in range(num_vectors):
+                tokens.append(identifier.replace(">", f"_{i}>"))
+            identifier = " ".join(tokens)
+        identifier = identifier.replace("SUBJECT", INSTANCES[instance])
+
         for seed in args.seeds:
             generate_from_pipeline(
                 pipeline=pipeline,
                 instance=instance,
                 size=size,
+                identifier=identifier,
                 token_format=args.token_format,
                 seed=seed,
                 outdir=outdir,
-                batch_size=8,
+                batch_size=16,
                 device=device,
             )
     return outdir

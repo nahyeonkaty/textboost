@@ -660,23 +660,20 @@ def main(args):
     args.initializer_token = []
     n = 0
     for i, concept in enumerate(args.concepts_list):
-        for placeholder_token, initializer_token in zip(
-            concept["placeholder_token"].split("+"), concept["initializer_token"].split("+")
-        ):
-            print(placeholder_token, initializer_token)
-            placeholder_tokens, token_ids = add_token(
-                text_encoder,
-                tokenizer,
-                placeholder_token,
-                initializer_token,
-            )
-            placeholder_token_dict[n] = token_ids
-            placeholder_token_ids += token_ids
-            n += 1
-            args.placeholder_token.append(placeholder_tokens)
-            args.initializer_token.append(initializer_token)
-            for token, token_id in zip(placeholder_tokens, token_ids):
-                added_tokens[token] = token_id
+        print(concept["placeholder_token"], concept["initializer_token"])
+        placeholder_tokens, token_ids = add_token(
+            text_encoder,
+            tokenizer,
+            concept["placeholder_token"],
+            concept["initializer_token"],
+        )
+        placeholder_token_dict[n] = token_ids
+        placeholder_token_ids += token_ids
+        n += 1
+        args.placeholder_token.append(placeholder_tokens)
+        args.initializer_token.append(concept["initializer_token"])
+        for token, token_id in zip(placeholder_tokens, token_ids):
+            added_tokens[token] = token_id
     if args.augment_inversion:
         aug_token_ids, aug_token_dict = add_augmentation_tokens(
             text_encoder,

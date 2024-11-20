@@ -34,7 +34,7 @@ INSTANCES = [
 
 parser = argparse.ArgumentParser(description='Run TextBoost experiment')
 parser.add_argument("-g", "--gpu", type=str, default="7")
-parser.add_argument("-m", "--model", type=str, default="sd2.1")
+parser.add_argument("-m", "--model", type=str, default="sd21")
 parser.add_argument("--instances", type=str, nargs="+", default=None)
 parser.add_argument("--augment", type=str, default="pda")
 parser.add_argument("--lora-rank", type=int, default=4)
@@ -61,12 +61,13 @@ def main(args):
     os.makedirs(outdir, exist_ok=True)
 
     model = args.model.lower().replace("-", "")
-    if model == "sd1.4":
+    if model == "sd14":
         args.model = "CompVis/stable-diffusion-v1-4"
-    elif model == "sd1.5":
-        # args.model = "runwayml/stable-diffusion-v1-5"
+    elif model == "sd15":
         args.model = "stable-diffusion-v1-5/stable-diffusion-v1-5"
-    elif model == "sd2.1":
+    elif model == "sd21base":
+        args.model = "stabilityai/stable-diffusion-2-1-base"
+    elif model == "sd21":
         args.model = "stabilityai/stable-diffusion-2-1"
 
     num_gpu = len(args.gpu.split(","))
@@ -85,10 +86,10 @@ def main(args):
             f"--output_dir=./{outdir}/{name}",
             "--instance_token=<0>",
             f"--validation_prompts",
-            "a man in <0>",
-            "a cat in <0>",
-            "flowers in <0>",
-            "a dog in <0>",
+            "A man in <0>",
+            "A cat in <0>",
+            "Flowers in <0>",
+            "A dog in <0>",
             "--validation_steps=25",
             "--placeholder_token", f"<{name}>",
             "--initializer_token", f"{init_token}",
