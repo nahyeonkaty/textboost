@@ -144,7 +144,7 @@ CUDA_VISIBLE_DEVICES=0 python eval_dreambooth.py output/tb-sd1.5-n1 --token-form
 
 ```bibtex
 @article{park2024textboost,
-  title   = {TextBoost: Towards One-Shot Personalization of Text-to-Image Models},
+  title   = {TextBoost: Towards One-Shot Personalization of Text-to-Image Models via Fine-tuning Text Encoder},
   author  = {Park, NaHyeon and Kim, Kunhee and Shim, Hyunjung},
   journal = {arXiv preprint},
   year    = {2024},
