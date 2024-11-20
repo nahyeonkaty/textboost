@@ -8,5 +8,4 @@ numpy
 scipy
 tqdm
 git+https://github.com/openai/CLIP.git
-image-reward
 t2v-metrics

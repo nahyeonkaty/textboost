@@ -894,7 +894,7 @@ def main(args):
     prior_dataset = PriorDataset(
         edit_dataset,
         tokenizer,
-        additional_template="textboost",
+        additional_template=args.template,
         additional_category=args.class_token,
         null_prob=args.null_prob,
     )
