@@ -248,45 +248,16 @@ def load_customdiffusion_pipeline(pipeline, model_path):
 
 
 def load_textboost_pipeline(pipeline, model_path):
-    try:
-        text_encoder_path = os.path.join(model_path, "text_encoder")
-        pipeline.text_encoder.load_adapter(text_encoder_path)
-        print("Loaded text encoder LoRA weights")
-    except:
-        lora_state_dict, _ = LoraLoaderMixin.lora_state_dict(model_path)
-        text_encoder_state_dict = {
-            f'{k.replace("text_encoder.", "")}': v
-            for k, v in lora_state_dict.items()
-        }
-        for k in text_encoder_state_dict:
-            if "lora_A" in k:
-                lora_rank = text_encoder_state_dict[k].shape[0]
-                lora_config = LoraConfig(
-                    r=lora_rank,
-                    lora_alpha=lora_rank,
-                    init_lora_weights="gaussian",
-                    target_modules=["q_proj", "k_proj", "v_proj", "out_proj", "fc1", "fc2"],
-                )
-                pipeline.text_encoder.add_adapter(lora_config)
-                break
-        text_encoder_state_dict = convert_state_dict_to_diffusers(text_encoder_state_dict)
-        incompatible_keys = _set_state_dict_into_text_encoder(
-            lora_state_dict, prefix="text_encoder.", text_encoder=pipeline.text_encoder
-        )
-        if incompatible_keys is not None:
-            # check only for unexpected keys
-            unexpected_keys = getattr(incompatible_keys, "unexpected_keys", None)
-            if unexpected_keys:
-                print(f"Unexpected keys in the state dict: {unexpected_keys}")
-        print("Loaded text encoder LoRA weights from checkpoint")
+    text_encoder_path = os.path.join(model_path, "text_encoder")
+    pipeline.text_encoder.load_adapter(text_encoder_path, "default")
+    print("Loaded text encoder LoRA weights")
+    pipeline.text_encoder.set_adapter("default")
 
     # Load learned embeddings
     embeddings = list(filter(lambda x: x.endswith(".bin"), os.listdir(model_path)))
     # remove the learned embeddings from the list of files
     for embedding in sorted(embeddings):
-        if os.path.basename(embedding) in (
-            "optimizer.bin", "scheduler.bin",
-        ):
+        if os.path.basename(embedding) in ("optimizer.bin", "scheduler.bin"):
             continue
         emb_path = os.path.join(model_path, embedding)
         pipeline.load_textual_inversion(emb_path)
@@ -344,7 +315,6 @@ def generate_from_pipeline(
         instance,
         size,
         identifier,
-        token_format,
         seed,
         outdir,
         batch_size=8,
@@ -454,7 +424,7 @@ def generate(args, device):
         files = os.listdir(model_path)
         num_vectors = len(list(filter(lambda x: x.startswith(instance), files)))
         identifier = args.token_format.replace("INSTANCE", instance)
-        if num_vectors is not None:
+        if num_vectors > 1:
             tokens = []
             for i in range(num_vectors):
                 tokens.append(identifier.replace(">", f"_{i}>"))
@@ -467,7 +437,6 @@ def generate(args, device):
                 instance=instance,
                 size=size,
                 identifier=identifier,
-                token_format=args.token_format,
                 seed=seed,
                 outdir=outdir,
                 batch_size=16,
