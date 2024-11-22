@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import shutil
 import subprocess
 
 # subject_name, class, init_token
@@ -112,7 +113,8 @@ def main(args):
         # if init_token is None:
         #     init_token = cls
         # identifier = f"<0> {cls}"
-        init_token = cls
+        # init_token = cls
+        init_token = f"{init_token} {cls}"
         identifier = "<0>"
         cmd = [
             "train_textboost.py",
@@ -162,6 +164,7 @@ def main(args):
         cmd_txt = "\n".join(cmd)
         with open(f"{outdir}/{name}/cmd.txt", "w") as file:
             file.write(cmd_txt)
+        shutil.copy("train_textboost.py", f"{outdir}/{name}/train_textboost.py")
 
 
 if __name__ == "__main__":

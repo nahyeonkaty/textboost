@@ -20,7 +20,7 @@ from accelerate.logging import get_logger
 from accelerate.utils import ProjectConfiguration, set_seed
 from peft import LoraConfig
 from peft.utils import get_peft_model_state_dict
-from torch.distributions import Categorical, Beta
+from torch.distributions import Categorical
 from tqdm import tqdm
 from transformers import AutoTokenizer
 
@@ -700,7 +700,8 @@ def main(args):
             r=args.lora_rank,
             lora_alpha=args.lora_rank,
             init_lora_weights="gaussian",
-            target_modules=["q_proj", "k_proj", "v_proj", "out_proj", "fc1", "fc2"],
+            # target_modules=["q_proj", "k_proj", "v_proj", "out_proj", "fc1", "fc2"],
+            target_modules=["q_proj", "k_proj", "v_proj"],
         )
         text_encoder.add_adapter(text_lora_config)
         logger.info("Added LoRA to text encoder")

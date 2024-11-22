@@ -184,7 +184,6 @@ def add_augmentation_tokens(
             "<dimmed>": "dark",
             "<hflip>": "flip",
             "<crop>": "crop",
-            "<cutout>": "hole",
             "<left>": "on the left",  # 3
             "<right>": "on the right",  # 3
         }

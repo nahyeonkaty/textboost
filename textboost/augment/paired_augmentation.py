@@ -238,11 +238,17 @@ def jpeg_compression(image, prompt, inversion=False):
 
 
 def square_photo_collage(image, prompt, inversion=False):
-    axis = np.random.choice([2, 4])
+    # axis = np.random.choice([2, 4])  # 2 or 4
+    axis = np.random.randint(2, 4)  # 2 or 3
     w, h = image.size
     grid_w, w_remainder = divmod(w, axis)
     grid_h, h_remainder = divmod(h, axis)
-    small_image = np.asarray(image.resize((grid_h, grid_w), Image.BICUBIC))
+    small_image = np.asarray(image.resize((grid_h, grid_w), Image.BICUBIC)).copy()
+
+    small_image[0, :] = 0
+    small_image[-1, :] = 0
+    small_image[:, 0] = 0
+    small_image[:, -1] = 0
 
     grid = np.zeros([grid_w * axis, grid_h * axis, 3], dtype=np.uint8)
     # print(grid.shape, small_image.shape)
@@ -308,7 +314,6 @@ class PairedAugmentation:
                 # jpeg_compression,
             ]
             self.other_ops = [
-                cutout,
                 square_photo_collage,
             ]
             # self.ops = [
@@ -317,8 +322,7 @@ class PairedAugmentation:
             #     adjust_brightness,
             #     crop,
             #     horizontal_translate,
-            #     cutout,
-            #     grid,
+            #     square_photo_collage,
             # ]
         else:  # "style"
             self.geometric_ops = []
