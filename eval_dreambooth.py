@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse
 import csv
 import glob
@@ -10,16 +10,10 @@ import ImageReward as RM
 import numpy as np
 import t2v_metrics
 import torch
-from diffusers import (DiffusionPipeline, DPMSolverMultistepScheduler,
-                       UNet2DConditionModel)
-from diffusers.loaders import LoraLoaderMixin
-from diffusers.training_utils import _set_state_dict_into_text_encoder
-from diffusers.utils import convert_state_dict_to_diffusers
-from peft import LoraConfig
+from diffusers import (DiffusionPipeline, DPMSolverMultistepScheduler)
 from PIL import Image
 from torchvision.transforms import v2
 from tqdm import tqdm
-from transformers import CLIPTextModel
 
 parser = argparse.ArgumentParser()
 parser.add_argument("path", type=str, help="path to model")
@@ -176,78 +170,14 @@ class Dataset(torch.utils.data.Dataset):
         return img, instance, prompt
 
 
-def load_dreambooth_pipeline(pipeline, model_path):
-    subfolders = os.listdir(model_path)
-    if "unet" in subfolders:
-        pipeline.unet = UNet2DConditionModel.from_pretrained(
-            model_path, subfolder="unet",
-        )
-        print("Loaded UNet weights")
-    if "text_encoder" in subfolders:
-        pipeline.text_encoder = CLIPTextModel.from_pretrained(
-            model_path, subfolder="text_encoder",
-        )
-    return pipeline
-
-
-def load_lora_pipeline(pipeline, model_path):
-    pipeline.load_lora_weights(model_path)
-    # lora_state_dict, _ = LoraLoaderMixin.lora_state_dict(model_path)
-    # unet_state_dict = {
-    #     f'{k.replace("unet.", "")}': v
-    #     for k, v in lora_state_dict.items()
-    # }
-    # for k in unet_state_dict:
-    #     if "lora_A" in k:
-    #         lora_rank = unet_state_dict[k].shape[0]
-    #         lora_config = LoraConfig(
-    #             r=lora_rank,
-    #             lora_alpha=lora_rank,
-    #             init_lora_weights="gaussian",
-    #             target_modules=["to_k", "to_q", "to_v", "to_out.0", "add_k_proj", "add_v_proj"],
-    #         )
-    #         pipeline.unet.add_adapter(lora_config)
-    #         break
-    # unet_state_dict = convert_state_dict_to_diffusers(unet_state_dict, original_type=torch.float32)
-    # incompatible_keys = set_peft_model_state_dict(pipeline.unet, unet_state_dict, adapter_name="default")
-
-    # if incompatible_keys is not None:
-    #     # check only for unexpected keys
-    #     unexpected_keys = getattr(incompatible_keys, "unexpected_keys", None)
-    #     if unexpected_keys:
-    #         print(f"Unexpected keys in the state dict: {unexpected_keys}")
-    print("Loaded U-Net LoRA weights from checkpoint")
-    return pipeline
-
-
-def load_customdiffusion_pipeline(pipeline, model_path):
-    weight_name = "pytorch_custom_diffusion_weights.bin"
-    custom_diffusion_state_dict = torch.load(
-        os.path.join(model_path, weight_name),
-        map_location="cpu",
+def load_pipeline(model_path, pretrained_model, dtype=torch.float16):
+    pipeline = DiffusionPipeline.from_pretrained(
+        STABLE_DIFFUSION[pretrained_model],
+        use_safetensors=True,
+        safety_checker=None,
     )
-    attn_state_dict = dict()
-    for key, value in custom_diffusion_state_dict.items():
-        _key = key.replace(".processor", "")
-        _key = _key.replace("_custom_diffusion", "")
-        attn_state_dict[_key] = value
-    _, unexpected = pipeline.unet.load_state_dict(attn_state_dict, strict=False)
-    assert len(unexpected) == 0, f"Unexpected keys in the state dict: {unexpected}"
-    try:
-        instance = model_path.split("/")[-2]
-        print(model_path)
-        print(instance)
-        pipeline.load_textual_inversion(
-            os.path.join(model_path, f"{instance}.bin"),
-        )
-    except:
-        pipeline.load_textual_inversion(
-            os.path.join(model_path, "<new>.bin"),
-        )
-    return pipeline
 
-
-def load_textboost_pipeline(pipeline, model_path):
+    # Load TextBoost pipeline.
     text_encoder_path = os.path.join(model_path, "text_encoder")
     pipeline.text_encoder.load_adapter(text_encoder_path, "default")
     print("Loaded text encoder LoRA weights")
@@ -262,50 +192,13 @@ def load_textboost_pipeline(pipeline, model_path):
         emb_path = os.path.join(model_path, embedding)
         pipeline.load_textual_inversion(emb_path)
         print(f"Loaded learned embeddings from {emb_path}")
-    return pipeline
 
-
-def load_pipeline(model_path, pretrained_model, dtype=torch.float16):
-    pipeline = DiffusionPipeline.from_pretrained(
-        STABLE_DIFFUSION[pretrained_model],
-        use_safetensors=True,
-        safety_checker=None,
-    )
-
-    if model_path is None:
-        pass
-    elif "db" in model_path:
-        pipeline = load_dreambooth_pipeline(pipeline, model_path)
-    elif "lora" in model_path:
-        pipeline = load_lora_pipeline(pipeline, model_path)
-    elif "ti" in model_path:
-        if "checkpoint" in model_path:
-            step = os.path.basename(model_path).split("-")[-1]
-            model_path = os.path.dirname(model_path)
-            embedding = os.path.join(model_path, f"learned_embeds-steps-{step}.safetensors")
-        else:
-            embedding = os.path.join(model_path, "learned_embeds.safetensors")
-        pipeline.load_textual_inversion(embedding)
-    elif "cd" in model_path:
-        pipeline = load_customdiffusion_pipeline(pipeline, model_path)
-    elif "auginv" in model_path:
-        if "checkpoint" in model_path:
-            step = os.path.basename(model_path).split("-")[-1]
-            model_path = os.path.dirname(model_path)
-        embedding = os.path.join(model_path, "learned_embeds0.bin")
-        pipeline.load_textual_inversion(embedding)
-    elif "tb" in model_path:
-        pipeline = load_textboost_pipeline(pipeline, model_path)
-    else:
-        raise ValueError(f"Unknown model path: {model_path}")
-
+    pipeline.set_progress_bar_config(disable=True)
     pipeline.vae.eval().requires_grad_(False)
     pipeline.unet.eval().requires_grad_(False)
     pipeline.text_encoder.eval().requires_grad_(False)
-
     pipeline = pipeline.to(dtype=dtype)
 
-    pipeline.set_progress_bar_config(disable=True)
     torch.cuda.empty_cache()
     return pipeline
 
