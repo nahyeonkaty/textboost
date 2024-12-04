@@ -6,11 +6,9 @@ import os
 from pprint import pprint
 
 import clip
-import ImageReward as RM
-import numpy as np
 import t2v_metrics
 import torch
-from diffusers import (DiffusionPipeline, DPMSolverMultistepScheduler)
+from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 from PIL import Image
 from torchvision.transforms import v2
 from tqdm import tqdm
@@ -32,7 +30,7 @@ parser.add_argument("--outdir", type=str, default="./benchmarks")
 parser.add_argument("--checkpoint", type=int, default=None)
 parser.add_argument("--instances", type=str, nargs="+", default=None)
 parser.add_argument("--skip-gen", action="store_true")
-parser.add_argument("--metric", type=str, nargs="+", default=["clip-t", "clip-i"])
+parser.add_argument("--metric", type=str, nargs="+", default=["clip-t", "clip-i", "vqa"])
 parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3])
 parser.add_argument("--dreambooth-path", type=str, default="./data/dreambooth")
 parser.add_argument("--train-dir", type=str, default="./data/dreambooth_n1_train")
@@ -338,7 +336,7 @@ def generate(args, device):
     return outdir
 
 
-def clip_t(generated_image_path, device, w=2.5):
+def clip_score(generated_image_path, device):
     score = t2v_metrics.CLIPScore(model='openai:ViT-L-14-336', device=device)
     score.eval().requires_grad_(False)
 
@@ -346,14 +344,14 @@ def clip_t(generated_image_path, device, w=2.5):
         basename = os.path.basename(path)  # prompt.png
         return basename.replace(".png", "").replace("_", " ")
 
-    image_paths = glob.glob(f"{generated_image_path}/*/*.png")  # root/instance/prompt.png
+    # root/instance/prompt.png
+    image_paths = glob.glob(f"{generated_image_path}/*/*.png")
     dataset = [
         {"images": [image_path], "texts": [_path_to_prompt(image_path)]}
         for image_path in image_paths
     ]
     scores = score.batch_forward(dataset=dataset, batch_size=32)
     # shape: len(dataset), len(dataset[0]["images"], len(dataset[0]["texts"])
-    scores = w * scores  # scale mo
 
     del score
     torch.cuda.empty_cache()
@@ -438,7 +436,7 @@ def clip_i(args, generated_image_path, device):
     print(f"Total samples: {n}")
     print(f"CLIP-I (seen)  : {seen_scores.mean():.3f} +/- {seen_scores.std():.3f}")
     print(f"CLIP-I (unseen): {unseen_scores.mean():.3f} +/- {unseen_scores.std():.3f}")
-    return {"clip_i_seen": seen_scores, "clip_i_unseen": unseen_scores}
+    return {"clip_i": seen_scores, "clip_i_unseen": unseen_scores}
 
 
 def dino_score(args, generated_image_path, device):
@@ -531,139 +529,26 @@ def dino_score(args, generated_image_path, device):
     return {"dino": seen_scores, "dino_unseen": unseen_scores}
 
 
-def radio_score(args, generated_image_path, device):
-    # model_version = "radio_v2.5-l"  # ViT-L/16
-    # model_version = "radio_v2.5-b"  # ViT-B/16
-    model_version = "radio_v2.1"  # ViT-H/16-CPE
-    model = torch.hub.load(
-        "NVlabs/RADIO", 'radio_model', version=model_version,
-        progress=True, skip_validation=True,
-    ).eval().requires_grad_(False).to(device)
-
-    dreambooth = {}
-    dreambooth_images = sorted(glob.glob(os.path.join(args.dreambooth_path, "**/*.*")))
-    instance_to_id = {}
-
-    preprocess = v2.Compose([
-        v2.Resize((512, 512)),
-        v2.ToImage(),
-        v2.ToDtype(torch.float32, scale=True),
-    ])
-
-    id = 0
-    for image in dreambooth_images:
-        instance = os.path.basename(os.path.dirname(image))
-        image = Image.open(image).convert("RGB")
-        if instance in dreambooth:
-            dreambooth[instance].append(preprocess(image))
-        else:
-            dreambooth[instance] = [preprocess(image)]
-            instance_to_id[instance] = id
-            id += 1
-
-    max_samples = 0
-    num_samples = {}
-    for instance, images in dreambooth.items():
-        id = instance_to_id[instance]
-        max_samples = max(max_samples, len(images))
-        num_samples[id] = len(images)
-
-    db_batch = torch.zeros(len(dreambooth), max_samples, 3, 512, 512)
-    for instance, images in dreambooth.items():
-        id = instance_to_id[instance]
-        db_batch[id, :num_samples[id]] = torch.stack(images)
-
-
-    N = int(args.path.split("-")[2].split("n")[-1])
-    dataloader = torch.utils.data.DataLoader(
-        Dataset(generated_image_path, transform=preprocess),
-        batch_size=32,
-        shuffle=False,
-        num_workers=4,
-        pin_memory=True,
-        drop_last=False,
-    )
-
-    seen_scores = []
-    unseen_scores = []
-    n = 0
-    for image, instance, prompt in dataloader:
-        instance = list(map(lambda x: instance_to_id[x], instance))
-        instance = torch.as_tensor(instance, dtype=torch.long)
-        summary, spatial_features = model(image.to(device))
-
-        # Compare to seen images.
-        train_batch = db_batch[instance][:, :N, :, :, :].to(device)
-        seen_score = 0.0
-        for i, train_image in enumerate(train_batch.unbind(1)):
-            summary2, _ = model(train_image)
-            seen_score += torch.cosine_similarity(summary, summary2, dim=-1)
-        seen_score /= N
-
-        # Compare to unseen images.
-        unseen_batch = db_batch[instance][:, N:, :, :, :].to(device)
-        unseen_score = 0.0
-        num_unseen = torch.as_tensor([num_samples[id.item()]-N for id in instance], device=device)
-        for i, unseen_image in enumerate(unseen_batch.unbind(1)):
-            summary2, _ = model(unseen_image)
-            sim = torch.cosine_similarity(summary, summary2, dim=-1)
-            mask = torch.ones(len(instance), device=device) * i
-            mask = mask < torch.as_tensor(num_unseen, device=device)
-            sim = mask * sim
-            unseen_score += sim
-        unseen_score /= num_unseen
-
-        n += image.shape[0]
-        seen_scores.append(seen_score)
-        unseen_scores.append(unseen_score)
-
-    seen_scores = torch.cat(seen_scores)
-    unseen_scores = torch.cat(unseen_scores)
-
-    print(f"Total samples: {n}")
-    print(f"RADIO-seen: {seen_scores.mean():.3f} +/- {seen_scores.std():.3f}")
-    print(f"RADIO-unseen: {unseen_scores.mean():.3f} +/- {seen_scores.std():.3f}")
-    return {"radio_seen": seen_scores, "radio_unseen": unseen_scores}
-
-
 def vqa_score(args, generated_image_path, device):
-    import t2v_metrics
     clip_flant5_score = t2v_metrics.VQAScore(model='clip-flant5-xxl', device=device)
     clip_flant5_score.eval().requires_grad_(False)
 
     dataset = []
-    files = glob.glob(f"{generated_image_path}/*/*/*.png")
+    # root/instance/prompt.png
+    files = glob.glob(f"{generated_image_path}/*/*.png")
     for file in files:
         text = os.path.basename(file).replace(".png", "").replace("_", " ")
         dataset.append({
             "images": [file], "texts": [text]
         })
     print("Number of samples:", len(dataset))
-
     scores = clip_flant5_score.batch_forward(dataset=dataset, batch_size=32)
 
     del clip_flant5_score
     torch.cuda.empty_cache()
+
+    print(f"VQA score: {scores.mean():.3f} +/- {scores.std():.3f}")
     return {"vqa_score": scores}
-
-
-def image_reward(args, generated_image_path, device="cuda"):
-    model = RM.load("ImageReward-v1.0")
-    model.eval().requires_grad_(False)
-
-    image_list = sorted(glob.glob(f"{generated_image_path}/*/*/*.png"))
-
-    image_rewards = []
-    for image in tqdm(image_list):
-        prompt = os.path.basename(image).replace(".png", "").replace("_", " ")
-        score = model.score(prompt, image)
-        image_rewards.append(score)
-
-    image_rewards = np.asarray(image_rewards)
-
-    print(f"Total samples: {len(image_list)}")
-    print(f"Image reward: {image_rewards.mean():.3f} +/- {image_rewards.std():.3f}")
-    return {"image_reward": image_rewards}
 
 
 @torch.inference_mode()
@@ -676,55 +561,57 @@ def main(args):
     generated_image_path = generate(args, device)
 
     # Save scores to file.
-    metric = "_".join(args.metric)
-    seeds = ",".join(map(str, args.seeds))
     ckpt = f"_ckpt{args.checkpoint}" if args.checkpoint is not None else "_last"
     desc = f"_{args.output_desc}" if args.output_desc is not None else ""
-    filename = f"{metric}{ckpt}{desc}.csv"
+    filename = f"metric{ckpt}{desc}.csv"
+
+
+    score_dict = {
+        seed: {
+            # Image-text scores
+            "clip_score": torch.tensor([0.0]),
+            "vqa_score": torch.tensor([0.0]),
+            # Image-image scores
+            "clip_i": torch.tensor([0.0]),
+            "clip_i_unseen": torch.tensor([0.0]),
+            "dino": torch.tensor([0.0]),
+            "dino_unseen": torch.tensor([0.0]),
+        }
+        for seed in args.seeds
+    }
+
     # If not exists, create the file and write header.
     with open(os.path.join(args.path, filename), "w") as f:
         writer = csv.writer(f)
-        writer.writerow(["seed", "clip-t", "clip-i-seen", "clip-i-unseen"])
+        row = ["seed"] + list(score_dict[args.seeds[0]].keys())
+        writer.writerow(row)
 
-    score_dict = {}
     for seed in args.seeds:
         path_with_seed = os.path.join(generated_image_path, f"seed{seed}")
 
-        score = {}
         if "clip-t" in args.metric:
-            score.update(clip_t(path_with_seed, device))
-        if "clip-i" in args.metric:
-            score.update(clip_i(args, path_with_seed, device))
-
+            score_dict[seed].update(clip_score(path_with_seed, device))
         if "vqa" in args.metric:
-            score.update(vqa_score(args, path_with_seed, device))
+            score_dict[seed].update(vqa_score(args, path_with_seed, device))
+
+        if "clip-i" in args.metric:
+            score_dict[seed].update(clip_i(args, path_with_seed, device))
         if "dino" in args.metric:
-            score.update(dino_score(args, path_with_seed, device))
-        if "image_reward" in args.metric:
-            score.update(image_reward(args, path_with_seed, device))
-        if "radio" in args.metric:
-            score.update(radio_score(args, path_with_seed, device))
+            score_dict[seed].update(dino_score(args, path_with_seed, device))
+    pprint(score_dict)
 
-        score_dict[f"seed{seed}"] = score
-        # Save scores to file.
-        with open(os.path.join(args.path, filename), "a") as f:
-            writer = csv.writer(f)
-            line = [
-                str(seed),
-                score["clip_score"].mean().item(),
-                score["clip_i_seen"].mean().item(),
-                score["clip_i_unseen"].mean().item(),
-            ]
+    # Save scores to file.
+    with open(os.path.join(args.path, filename), "a") as f:
+        writer = csv.writer(f)
+        for seed, score in score_dict.items():
+            line = (
+                [str(seed)]
+                + list(
+                    map(lambda x: f"{x.mean().cpu().item():.3f}", score.values())
+                )
+            )
+            print(line)
             writer.writerow(line)
-    # pprint(score_dict, sort_dicts=False)
-
-    filename = f"{metric}{ckpt}-{seeds}.txt"
-    with open(os.path.join(args.path, filename), "a+") as f:
-        for seed_key, seed_score in score_dict.items():
-            f.write(f"{seed_key}\n")
-            for key, value in seed_score.items():
-                f.write(f"{key}: ")
-                f.write(f"{value.mean():.3f} +/- {value.std():.3f}\n")
 
 
 if __name__ == "__main__":

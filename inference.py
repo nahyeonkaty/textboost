@@ -13,16 +13,16 @@ from transformers import CLIPTextModel
 
 
 STABLE_DIFFUSION = {
-    "sd1.4": "CompVis/stable-diffusion-v1-4",
-    # "sd1.5": "runwayml/stable-diffusion-v1-5",
-    "sd1.5": "stable-diffusion-v1-5/stable-diffusion-v1-5",
-    "sd2.1": "stabilityai/stable-diffusion-2-1",
+    "sd14": "CompVis/stable-diffusion-v1-4",
+    "sd15": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+    "sd21base": "stabilityai/stable-diffusion-2-1-base",
+    "sd21": "stabilityai/stable-diffusion-2-1",
 }
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", type=str, help="path to model")
-    parser.add_argument("--model", type=str, default="sd1.5")
+    parser.add_argument("--model", type=str, default="sd21base")
     parser.add_argument(
         "--prompt",
         type=str,
@@ -44,71 +44,33 @@ def parse_args():
     return args
 
 
-def load_textboost_pipeline(pipeline, model_path):
-    if "checkpoint" in model_path:
-        lora_state_dict, _ = LoraLoaderMixin.lora_state_dict(model_path)
-        text_encoder_state_dict = {
-            f'{k.replace("text_encoder.", "")}': v
-            for k, v in lora_state_dict.items()
-        }
-        for k in text_encoder_state_dict:
-            if "lora_A" in k:
-                lora_rank = text_encoder_state_dict[k].shape[0]
-                lora_config = LoraConfig(
-                    r=lora_rank,
-                    lora_alpha=lora_rank,
-                    init_lora_weights="gaussian",
-                    target_modules=["q_proj", "k_proj", "v_proj", "out_proj", "fc1", "fc2"],
-                )
-                pipeline.text_encoder.add_adapter(lora_config)
-                break
-        text_encoder_state_dict = convert_state_dict_to_diffusers(text_encoder_state_dict)
-        incompatible_keys = _set_state_dict_into_text_encoder(
-            lora_state_dict, prefix="text_encoder.", text_encoder=pipeline.text_encoder
-        )
-        if incompatible_keys is not None:
-            # check only for unexpected keys
-            unexpected_keys = getattr(incompatible_keys, "unexpected_keys", None)
-            if unexpected_keys:
-                print(f"Unexpected keys in the state dict: {unexpected_keys}")
-        print("Loaded text encoder LoRA weights from checkpoint")
-    else:
-        text_encoder_path = os.path.join(model_path, "text_encoder")
-        if "adapter_config.json" in os.listdir(text_encoder_path):
-            pipeline.text_encoder.load_adapter(text_encoder_path)
-            print("Loaded text encoder LoRA weights")
-        else:
-            pipeline.text_encoder = CLIPTextModel.from_pretrained(
-                model_path, subfolder="text_encoder",
-            )
-            print("Loaded text encoder weights")
+def load_pipeline(model_path, pretrained_model, dtype=torch.float16):
+    pipeline = DiffusionPipeline.from_pretrained(
+        STABLE_DIFFUSION[pretrained_model],
+        use_safetensors=True,
+        safety_checker=None,
+    )
+
+    # Load TextBoost pipeline.
+    text_encoder_path = os.path.join(model_path, "text_encoder")
+    pipeline.text_encoder.load_adapter(text_encoder_path, "default")
+    print("Loaded text encoder LoRA weights")
+    pipeline.text_encoder.set_adapter("default")
 
     # Load learned embeddings
     embeddings = list(filter(lambda x: x.endswith(".bin"), os.listdir(model_path)))
     # remove the learned embeddings from the list of files
     for embedding in sorted(embeddings):
-        if os.path.basename(embedding) in (
-            "optimizer.bin", "scheduler.bin",
-        ):
+        if os.path.basename(embedding) in ("optimizer.bin", "scheduler.bin"):
             continue
         emb_path = os.path.join(model_path, embedding)
         pipeline.load_textual_inversion(emb_path)
         print(f"Loaded learned embeddings from {emb_path}")
-    return pipeline
 
-
-def load_pipeline(model_path, pretrained_model, dtype=torch.float16):
-    pipeline = DiffusionPipeline.from_pretrained(
-        pretrained_model,
-        use_safetensors=True,
-        safety_checker=None,
-    )
-    pipeline = load_textboost_pipeline(pipeline, model_path)
-
+    pipeline.set_progress_bar_config(disable=True)
     pipeline.vae.eval().requires_grad_(False)
     pipeline.unet.eval().requires_grad_(False)
     pipeline.text_encoder.eval().requires_grad_(False)
-
     pipeline = pipeline.to(dtype=dtype)
 
     torch.cuda.empty_cache()
