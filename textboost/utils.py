@@ -175,21 +175,21 @@ def add_augmentation_tokens(
         f"aug_type must be either 'object' or 'style', but is {aug_type}"
 
     if aug_type == "object":
+        # Rare tokens used in Custom Diffusion.
+        # ktn, pll, ucd
         augmentations = {
             "<grayscale>": "grayscale",  # 2
             "<zoom-in>": "zoom in",  # 2
             "<zoom-out>": "far away",  # 2
             "<collage>": "photo collage",  # 2
-            "<bright>": "bright",
-            "<dimmed>": "dark",
-            "<hflip>": "flip",
             "<crop>": "crop",
-            "<left>": "on the left",  # 3
-            "<right>": "on the right",  # 3
+            "<hflip>": "ktn",
+            "<left>": "pll",
+            "<right>": "ucd",
         }
     else:
         augmentations = {
-            "<hflip>": "flip",
+            "<hflip>": "ktn",
         }
 
     aug_token_ids = []

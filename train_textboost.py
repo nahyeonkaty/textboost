@@ -1011,8 +1011,11 @@ def main(args):
             norm = emb.norm().item()
             if norm > max_norm:
                 max_norm = norm
+        mean_norm = input_embeddings.norm(dim=-1).mean().item()
         accelerator.log({"max_norm": max_norm}, step=0)
+        accelerator.log({"mean_norm": mean_norm}, step=0)
         print("Max norm:", max_norm)
+        print("Mean norm:", mean_norm)
 
     start_time = time.perf_counter()
     while step < args.max_train_steps:
@@ -1134,7 +1137,8 @@ def main(args):
                     input_embeddings = text_encoder.get_input_embeddings()
                 added_embeddings = input_embeddings.weight[added_token_ids]
                 v_norm = torch.norm(added_embeddings.detach(), dim=-1, keepdim=True)
-                scale = torch.minimum(max_norm * torch.ones_like(v_norm), v_norm)
+                # scale = torch.minimum(max_norm * torch.ones_like(v_norm), v_norm)
+                scale = torch.minimum(mean_norm * torch.ones_like(v_norm), v_norm)
                 input_embeddings.weight.data[added_token_ids] = (
                     (scale / v_norm) * added_embeddings
                 )

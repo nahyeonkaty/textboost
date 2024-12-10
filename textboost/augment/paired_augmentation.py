@@ -264,32 +264,13 @@ def square_photo_collage(image, prompt, inversion=False):
     return image, prompt
 
 
-def cutout(image, prompt, inversion=False):
-    image = np.asarray(image).copy()
-    h, w, c = image.shape
-    cutout_ratio = np.random.uniform(0.1, 0.33)
-    cutout_size = round(h * cutout_ratio)
-    x = np.random.randint(0, w - cutout_size)
-    y = np.random.randint(0, h - cutout_size)
-    image[y:y + cutout_size, x:x + cutout_size] = 0
-    image = PIL.Image.fromarray(image)
-    if inversion:
-        if np.random.rand() < 0.5:
-            prompt = "<cutout> " + prompt
-        else:
-            prompt = prompt + ", <cutout>"
-    else:
-        prompt = "cutout " + prompt
-    return image, prompt
-
-
 class PairedAugmentation:
     def __init__(
             self,
             hflip="false",
             inversion=False,
             p=0.5,
-            color_prob=0.5,
+            color_prob=0.2,
             augment_prompt=True,
             ops="object",
         ):
@@ -310,7 +291,6 @@ class PairedAugmentation:
             ]
             self.color_ops = [
                 grayscale,
-                adjust_brightness,
                 # jpeg_compression,
             ]
             self.other_ops = [
@@ -356,14 +336,14 @@ class PairedAugmentation:
             if self.augment_prompt:
                 prompt = new_prompt
 
-        if len(self.color_ops) > 0 and np.random.rand() < self.color_prob:
-            op = np.random.choice(self.color_ops)
+        if len(self.other_ops) > 0 and np.random.rand() < self.p:
+            op = np.random.choice(self.other_ops)
             image, new_prompt = op(image, prompt, self.inversion)
             if self.augment_prompt:
                 prompt = new_prompt
 
-        if len(self.other_ops) > 0 and np.random.rand() < self.p:
-            op = np.random.choice(self.other_ops)
+        if len(self.color_ops) > 0 and np.random.rand() < self.color_prob:
+            op = np.random.choice(self.color_ops)
             image, new_prompt = op(image, prompt, self.inversion)
             if self.augment_prompt:
                 prompt = new_prompt

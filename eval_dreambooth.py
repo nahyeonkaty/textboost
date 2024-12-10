@@ -3,7 +3,6 @@ import argparse
 import csv
 import glob
 import os
-from pprint import pprint
 
 import clip
 import t2v_metrics
@@ -583,8 +582,8 @@ def main(args):
     # If not exists, create the file and write header.
     with open(os.path.join(args.path, filename), "w") as f:
         writer = csv.writer(f)
-        row = ["seed"] + list(score_dict[args.seeds[0]].keys())
-        writer.writerow(row)
+        headline = ["seed"] + list(score_dict[args.seeds[0]].keys())
+        writer.writerow(headline)
 
     for seed in args.seeds:
         path_with_seed = os.path.join(generated_image_path, f"seed{seed}")
@@ -598,9 +597,9 @@ def main(args):
             score_dict[seed].update(clip_i(args, path_with_seed, device))
         if "dino" in args.metric:
             score_dict[seed].update(dino_score(args, path_with_seed, device))
-    pprint(score_dict)
 
     # Save scores to file.
+    print(headline)
     with open(os.path.join(args.path, filename), "a") as f:
         writer = csv.writer(f)
         for seed, score in score_dict.items():

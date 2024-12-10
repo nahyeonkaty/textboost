@@ -47,7 +47,7 @@ def parse_args():
 
     parser.add_argument("--lora-rank", type=int, default=4)
     parser.add_argument("--total-steps", type=int, default=250)
-    parser.add_argument("--lr", type=float, default=5e-5)
+    parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--emb-lr", type=float, default=1e-3)
     parser.add_argument("--batch-size", type=int, default=8)
 
@@ -146,6 +146,7 @@ def main(args):
             f"--augment_p={args.augment_p}",
             f"--null_prob={args.null_prob}",
             f"--kpl_weight={args.kpl_weight}",
+            "--template=imagenet_small",
             "--mixed_precision=fp16",
         ]
         if args.num_samples is not None:
