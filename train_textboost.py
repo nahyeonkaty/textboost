@@ -38,6 +38,7 @@ from textboost.dataset import InstructPix2PixDataset, TextBoostDataset, PriorDat
 from textboost.utils import (add_augmentation_tokens, add_token, encode_prompt,
                              generate_prior_images,
                              import_model_class_from_model_name_or_path)
+from textboost.text_encoder import TextBoostModel
 
 if is_wandb_available():
     import wandb
@@ -641,9 +642,11 @@ def main(args):
 
     # Load scheduler and models.
     noise_scheduler = DDPMScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
-    text_encoder = text_encoder_cls.from_pretrained(
+    # text_encoder = text_encoder_cls.from_pretrained(
+    text_encoder = TextBoostModel.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="text_encoder", revision=args.revision, variant=args.variant
     )
+    text_encoder.set_null_embedding("assets/null_emb_sd21base.pt")
     original_text_encoder = copy.deepcopy(text_encoder).eval().requires_grad_(False)
     vae = AutoencoderKL.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="vae", revision=args.revision, variant=args.variant
@@ -701,7 +704,7 @@ def main(args):
             lora_alpha=args.lora_rank,
             init_lora_weights="gaussian",
             # target_modules=["q_proj", "k_proj", "v_proj", "out_proj", "fc1", "fc2"],
-            target_modules=["q_proj", "k_proj", "v_proj"],
+            target_modules=["q_proj", "k_proj", "v_proj"],  # fix-semb, fix-nemb
         )
         text_encoder.add_adapter(text_lora_config)
         logger.info("Added LoRA to text encoder")
@@ -1054,6 +1057,7 @@ def main(args):
                 attention_mask,
                 text_encoder_use_attention_mask=args.text_encoder_use_attention_mask,
             )
+            # print(encoder_hidden_states[:, 0])
 
             # Predict the noise residual.
             model_pred = unet(
@@ -1091,6 +1095,7 @@ def main(args):
 
             if args.kpl_weight > 0.0:
                 prior_attention_mask = torch.cat(prior_attention_mask, dim=0).to(accelerator.device)
+                # print(prior_attention_mask.shape)  # (bsz, seq_len)
                 prior_hidden_states = text_encoder(prior_input_ids)[0].float()
                 original_prior_hidden_states = original_text_encoder(prior_input_ids)[0].float()
                 if args.kpl_type == 'cos':

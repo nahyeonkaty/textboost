@@ -12,30 +12,8 @@ from PIL import Image
 from torchvision.transforms import v2
 from tqdm import tqdm
 
-parser = argparse.ArgumentParser()
-parser.add_argument("path", type=str, help="path to model")
-parser.add_argument(
-    "--token-format",
-    type=str,
-    default="<INSTANCE> SUBJECT",
-    help=(
-        "Token format for the prompt ",
-        "[sks SUBJECT] for DreamBooth models, ",
-        "[<INSTANCE>] for Textual Inversion models, "
-        "[<INSTANCE> SUBJECT] for CustomDiffusion and TextBoost."
-    )
-)
-parser.add_argument("--outdir", type=str, default="./benchmarks")
-parser.add_argument("--checkpoint", type=int, default=None)
-parser.add_argument("--instances", type=str, nargs="+", default=None)
-parser.add_argument("--skip-gen", action="store_true")
-parser.add_argument("--metric", type=str, nargs="+", default=["clip-t", "clip-i", "vqa"])
-parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3])
-parser.add_argument("--dreambooth-path", type=str, default="./data/dreambooth")
-parser.add_argument("--train-dir", type=str, default="./data/dreambooth_n1_train")
-parser.add_argument("--val-dir", type=str, default="./data/dreambooth_n1_val")
-parser.add_argument("--model", type=str, default=None)
-parser.add_argument("--output-desc", type=str, default=None)
+from textboost.text_encoder import TextBoostModel
+
 
 STABLE_DIFFUSION = {
     "sd14": "CompVis/stable-diffusion-v1-4",
@@ -133,6 +111,33 @@ LIVE_PROMPTS = [
     'a cube shaped {0}'
 ]
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=str, help="path to model")
+    parser.add_argument(
+        "--token-format",
+        type=str,
+        default="<INSTANCE> SUBJECT",
+        help=(
+            "Token format for the prompt ",
+            "[sks SUBJECT] for DreamBooth models, ",
+            "[<INSTANCE>] for Textual Inversion models, "
+            "[<INSTANCE> SUBJECT] for CustomDiffusion and TextBoost."
+        )
+    )
+    parser.add_argument("--outdir", type=str, default="./benchmarks")
+    parser.add_argument("--checkpoint", type=int, default=None)
+    parser.add_argument("--instances", type=str, nargs="+", default=None)
+    parser.add_argument("--skip-gen", action="store_true")
+    parser.add_argument("--metric", type=str, nargs="+", default=["clip-t", "clip-i", "vqa"])
+    parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3])
+    parser.add_argument("--dreambooth-path", type=str, default="./data/dreambooth")
+    parser.add_argument("--train-dir", type=str, default="./data/dreambooth_n1_train")
+    parser.add_argument("--val-dir", type=str, default="./data/dreambooth_n1_val")
+    parser.add_argument("--model", type=str, default=None)
+    parser.add_argument("--output-desc", type=str, default=None)
+    return parser.parse_args()
+
 
 def is_live(instance):
     cls = INSTANCES[instance]
@@ -168,8 +173,18 @@ class Dataset(torch.utils.data.Dataset):
 
 
 def load_pipeline(model_path, pretrained_model, dtype=torch.float16):
+    text_encoder = TextBoostModel.from_pretrained(
+        STABLE_DIFFUSION[pretrained_model], subfolder="text_encoder",
+    )
+    start_embedding = torch.load(
+        f"assets/start_emb_{pretrained_model}.pt", map_location="cpu"
+    )
+    text_encoder.set_null_embedding(start_embedding)
+    print(text_encoder.null_embedding)
+
     pipeline = DiffusionPipeline.from_pretrained(
         STABLE_DIFFUSION[pretrained_model],
+        text_encoder=text_encoder,
         use_safetensors=True,
         safety_checker=None,
     )
@@ -614,5 +629,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args = parser.parse_args()
+    args = parse_args()
     main(args)
