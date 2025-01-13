@@ -13,3 +13,5 @@ benchmarks
 datasets
 output
 *.ipynb
+
+.ropeproject/
