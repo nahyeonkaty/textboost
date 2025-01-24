@@ -166,7 +166,9 @@ class InstructPix2PixDataset(torch.utils.data.Dataset):
         self.data = []
         for i, line in enumerate(data):
             self.data.append(line["input"])
-            self.data.append(line["output"])
+            output = line["output"]
+            if output is not None and output != "NONE":
+                self.data.append(output)
 
         if num_samples is not None:
             self.data = self.data[:num_samples]
@@ -272,6 +274,7 @@ class TextBoostDataset(torch.utils.data.Dataset):
         self,
         concepts_list,
         tokenizer,
+        tokenizer_2=None,
         num_instance=None,
         template="a {}",
         prior_data_root=None,
@@ -282,6 +285,10 @@ class TextBoostDataset(torch.utils.data.Dataset):
         augment_pipe=None,
         augment_prior: bool = False,
     ):
+        self.size = size
+        self.center_crop = center_crop
+        self.tokenizer = tokenizer
+        self.tokenizer_2 = tokenizer_2
         try:
             self.template = {
                 "imagenet_small": imagenet_templates_small,
@@ -291,10 +298,6 @@ class TextBoostDataset(torch.utils.data.Dataset):
         except:
             self.template = [template]
         print(self.template)
-
-        self.size = size
-        self.center_crop = center_crop
-        self.tokenizer = tokenizer
 
         self.instance_images_path = []
         for concept in concepts_list:
@@ -320,9 +323,11 @@ class TextBoostDataset(torch.utils.data.Dataset):
         else:
             self.prior_data_root = None
 
+        self.resize_fn = v2.Resize(size, interpolation=v2.InterpolationMode.LANCZOS)
+        self.crop = v2.CenterCrop(size) if center_crop else v2.RandomCrop(size)
         self.image_transforms = v2.Compose([
-            v2.Resize(size, interpolation=v2.InterpolationMode.LANCZOS),
-            v2.CenterCrop(size) if center_crop else v2.RandomCrop(size),
+            # v2.Resize(size, interpolation=v2.InterpolationMode.LANCZOS),
+            # v2.CenterCrop(size) if center_crop else v2.RandomCrop(size),
             v2.ToImage(),
             v2.ToDtype(torch.float, scale=True),
             v2.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
@@ -334,27 +339,48 @@ class TextBoostDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self._length
 
+    def _resize_and_crop_image(self, image):
+        image = self.resize_fn(image)
+        if self.center_crop:
+            y1 = max(0, int(round((image.height - self.size) / 2.0)))
+            x1 = max(0, int(round((image.width - self.size) / 2.0)))
+            image = self.crop(image)
+        else:
+            y1, x1, h, w = self.crop.get_params(image, (self.size, self.size))
+            image = v2.functional.crop(image, y1, x1, h, w)
+        return image, y1, x1
+
     def __getitem__(self, index):
         sample = {}
 
-        instance_image, instance_token = self.instance_images_path[index % self.num_instance_images]
-        instance_image = Image.open(instance_image)
-        instance_image = exif_transpose(instance_image)
-        if not instance_image.mode == "RGB":
-            instance_image = instance_image.convert("RGB")
+        image, instance_token = self.instance_images_path[index % self.num_instance_images]
+        image = Image.open(image)
+        image = exif_transpose(image)
+        if not image.mode == "RGB":
+            image = image.convert("RGB")
 
         prompt_idx = random.randint(0, len(self.template) - 1)
         prompt = self.template[prompt_idx].format(instance_token)
+
+        # For augmentation inversion.
         if self.augment_pipe is not None:
-            instance_image, prompt, mask = self.augment_pipe(instance_image, prompt)
+            image, prompt, mask = self.augment_pipe(image, prompt)
             if mask is not None:
                 mask = torch.as_tensor(mask, dtype=torch.float32).unsqueeze(0)
                 sample["mask"] = mask
 
+        sample["original_size"] = (image.width, image.height)
+        image, y1, x1 = self._resize_and_crop_image(image)
+        sample["image"] = self.image_transforms(image)  # remaining transforms.
+        sample["crop_top_left"] = (y1, x1)
+
         text_inputs = tokenize_prompt(self.tokenizer, prompt)
-        sample["instance_images"] = self.image_transforms(instance_image)
-        sample["instance_prompt_ids"] = text_inputs.input_ids
-        sample["instance_attention_mask"] = text_inputs.attention_mask
+        sample["input_ids"] = text_inputs.input_ids
+        sample["attention_mask"] = text_inputs.attention_mask
+        if self.tokenizer_2 is not None:
+            text_inputs_2 = tokenize_prompt(self.tokenizer_2, prompt)
+            sample["input_ids_2"] = text_inputs_2.input_ids
+            sample["attention_mask_2"] = text_inputs_2.attention_mask
 
         if self.prior_data_root:
             prior_path = self.class_images_path[index % self.num_prior_images]
@@ -380,27 +406,32 @@ class TextBoostDataset(torch.utils.data.Dataset):
             if "mask" in sample and "prior_mask" not in sample:
                 sample["prior_mask"] = torch.ones_like(sample["mask"])
 
-            sample["class_images"] = self.image_transforms(prior_image)
+            prior_image = self.resize_fn(prior_image)
+            prior_image = self.crop(prior_image)
+            prior_image, y1, x1 = self._resize_and_crop_image(prior_image)
+            sample["class_image"] = self.image_transforms(prior_image)
+            sample["class_crop_top_left"] = (y1, x1)
+
             prior_text_inputs = tokenize_prompt(self.tokenizer, prompt)
-            sample["class_prompt_ids"] = prior_text_inputs.input_ids
+            sample["class_input_ids"] = prior_text_inputs.input_ids
             sample["class_attention_mask"] = prior_text_inputs.attention_mask
         return sample
 
     @staticmethod
     def collate_fn(samples, with_prior_preservation=False):
-        has_attention_mask = "instance_attention_mask" in samples[0]
+        has_attention_mask = "attention_mask" in samples[0]
 
-        input_ids = [sample["instance_prompt_ids"] for sample in samples]
-        pixel_values = [sample["instance_images"] for sample in samples]
+        input_ids = [sample["input_ids"] for sample in samples]
+        pixel_values = [sample["image"] for sample in samples]
 
         if has_attention_mask:
-            attention_mask = [example["instance_attention_mask"] for example in samples]
+            attention_mask = [example["attention_mask"] for example in samples]
 
         # Concat class and instance examples for prior preservation.
         # We do this to avoid doing two forward passes.
         if with_prior_preservation:
-            input_ids += [example["class_prompt_ids"] for example in samples]
-            pixel_values += [example["class_images"] for example in samples]
+            input_ids += [example["class_input_ids"] for example in samples]
+            pixel_values += [example["class_image"] for example in samples]
             if has_attention_mask:
                 attention_mask += [example["class_attention_mask"] for example in samples]
 
@@ -433,6 +464,7 @@ class JsonDataset(torch.utils.data.Dataset):
         instance,
         instance_token,
         tokenizer,
+        tokenizer_2=None,
         template="a {}",
         prior_data_root=None,
         class_token=None,
@@ -461,6 +493,7 @@ class JsonDataset(torch.utils.data.Dataset):
         self.size = size
         self.center_crop = center_crop
         self.tokenizer = tokenizer
+        self.tokenizer_2 = tokenizer_2
 
         with open(json_file, "r") as f:
             data = json.load(f)
@@ -529,20 +562,20 @@ class JsonDataset(torch.utils.data.Dataset):
                 sample["mask"] = mask
 
         text_inputs = tokenize_prompt(self.tokenizer, prompt)
-        sample["instance_images"] = self.image_transforms(image)
-        sample["instance_prompt_ids"] = text_inputs.input_ids
-        sample["instance_attention_mask"] = text_inputs.attention_mask
+        sample["image"] = self.image_transforms(image)
+        sample["input_ids"] = text_inputs.input_ids
+        sample["attention_mask"] = text_inputs.attention_mask
         return sample
 
     @staticmethod
     def collate_fn(samples, with_prior_preservation=False):
-        has_attention_mask = "instance_attention_mask" in samples[0]
+        has_attention_mask = "attention_mask" in samples[0]
 
-        input_ids = [sample["instance_prompt_ids"] for sample in samples]
-        pixel_values = [sample["instance_images"] for sample in samples]
+        input_ids = [sample["input_ids"] for sample in samples]
+        pixel_values = [sample["image"] for sample in samples]
 
         if has_attention_mask:
-            attention_mask = [example["instance_attention_mask"] for example in samples]
+            attention_mask = [example["attention_mask"] for example in samples]
 
         # Concat class and instance examples for prior preservation.
         # We do this to avoid doing two forward passes.
