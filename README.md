@@ -60,7 +60,7 @@ We also provide similar scripts for other model architectures such as SDXL (`run
 ## Citation
 
 ```bibtex
-@article{park2024textboost,
+@article{park2026textboost,
   title   = {Boosting Text Encoder for Personalized Text-to-Image Generation},
   author  = {Park, NaHyeon and Kim, Kunhee and Shim, Hyunjung},
   journal = {Transactions on Machine Learning Research},
