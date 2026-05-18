@@ -1,0 +1,182 @@
+{
+  "backpack": {
+    "path": "datasets/dreambooth/backpack/02.jpg",
+    "class": "backpack",
+    "initialization": "maroon",
+    "template": "A {} is placed on a rocky surface with a scenic background of lush green trees and distant blue mountains under a cloudy sky."
+  },
+  "backpack_dog": {
+    "path": "datasets/dreambooth/backpack_dog/04.jpg",
+    "class": "backpack",
+    "initialization": "cute",
+    "template": "A {} sits on a patch of green grass with a paved sidewalk or driveway visible in the background."
+  },
+  "bear_plushie": {
+    "path": "datasets/dreambooth/bear_plushie/03.jpg",
+    "class": "stuffed animal",
+    "initialization": "teddy bear",
+    "template": "A {} sits on lush green grass."
+  },
+  "berry_bowl": {
+    "path": "datasets/dreambooth/berry_bowl/04.jpg",
+    "class": "bowl",
+    "initialization": "white",
+    "template": "A {} is on a soft white fabric background."
+  },
+  "can": {
+    "path": "datasets/dreambooth/can/00.jpg",
+    "class": "can",
+    "initialization": "beer",
+    "template": "A {} sits on a concrete surface against a softly blurred outdoor background."
+  },
+  "candle": {
+    "path": "datasets/dreambooth/candle/02.jpg",
+    "class": "candle",
+    "initialization": "jar",
+    "template": "A {} on a lush green lawn dotted with clover."
+  },
+  "cat": {
+    "path": "datasets/dreambooth/cat/01.jpg",
+    "class": "cat",
+    "initialization": "orange",
+    "template": "A {} on scattered patches of grass and soft bokeh lighting in the background."
+  },
+  "cat2": {
+    "path": "datasets/dreambooth/cat2/00.jpg",
+    "class": "cat",
+    "initialization": "gray",
+    "template": "The {} stands on a light-colored wooden floor with subtle grain patterns visible in the background."
+  },
+  "clock": {
+    "path": "datasets/dreambooth/clock/03.jpg",
+    "class": "clock",
+    "initialization": "yellow",
+    "template": "A hand grabbing {} on the white background."
+  },
+  "colorful_sneaker": {
+    "path": "datasets/dreambooth/colorful_sneaker/02.jpg",
+    "class": "sneaker",
+    "initialization": "color",
+    "template": "A {} on a vibrant green grass."
+  },
+  "dog": {
+    "path": "datasets/dreambooth/dog/00.jpg",
+    "class": "dog",
+    "initialization": "corgi",
+    "template": "A {} with a blurry background of spring blossoms."
+  },
+  "dog2": {
+    "path": "datasets/dreambooth/dog2/00.jpg",
+    "class": "dog",
+    "initialization": "fluffy",
+    "template": "A {} walking in the misty forest path with a blurred atmospheric gray background"
+  },
+  "dog3": {
+    "path": "datasets/dreambooth/dog3/05.jpg",
+    "class": "dog",
+    "initialization": "poodle",
+    "template": "The {} is resting comfortably on a patterned fabric with blue and white designs in what appears to be a cozy indoor setting."
+  },
+  "dog5": {
+    "path": "datasets/dreambooth/dog5/00.jpg",
+    "class": "dog",
+    "initialization": "dachshund",
+    "template": "A {} in cozy indoor setting with white window blinds, a teal couch, and a soft gray blanket."
+  },
+  "dog6": {
+    "path": "datasets/dreambooth/dog6/01.jpg",
+    "class": "dog",
+    "initialization": "corgi",
+    "template": "A portrait-style photograph of a {} on a vibrant orange background."
+  },
+  "dog7": {
+    "path": "datasets/dreambooth/dog7/02.jpg",
+    "class": "dog",
+    "initialization": "retriever",
+    "template": "A {} standing on serene ocean with gentle waves washing onto a pebbled shore."
+  },
+  "dog8": {
+    "path": "datasets/dreambooth/dog8/00.jpg",
+    "class": "dog",
+    "initialization": "border collie",
+    "template": "A {} on forest floor covered with fallen autumn leaves and surrounded by lush green shrubs in a natural outdoor setting."
+  },
+  "duck_toy": {
+    "path": "datasets/dreambooth/duck_toy/01.jpg",
+    "class": "toy",
+    "initialization": "duck",
+    "template": "A {} sits on a textured blue carpet surface."
+  },
+  "fancy_boot": {
+    "path": "datasets/dreambooth/fancy_boot/03.jpg",
+    "class": "boot",
+    "initialization": "fringe",
+    "template": "A {} rests on a lush green grassy lawn."
+  },
+  "grey_sloth_plushie": {
+    "path": "datasets/dreambooth/grey_sloth_plushie/01.jpg",
+    "class": "stuffed animal",
+    "initialization": "sloth",
+    "template": "A {} on a concrete ledge overlooking a waterfront with a city skyline of high-rise buildings in the background."
+  },
+  "monster_toy": {
+    "path": "datasets/dreambooth/monster_toy/04.jpg",
+    "class": "toy",
+    "initialization": "monster",
+    "template": "The {} sits on a stone surface surrounded by green grass and scattered yellow leaves in a natural outdoor setting."
+  },
+  "pink_sunglasses": {
+    "path": "datasets/dreambooth/pink_sunglasses/01.jpg",
+    "class": "glasses",
+    "initialization": "pink",
+    "template": "A {} rests against a minimalist light gray background."
+  },
+  "poop_emoji": {
+    "path": "datasets/dreambooth/poop_emoji/01.jpg",
+    "class": "toy",
+    "initialization": "poop",
+    "template": "The {} sits in a lush, vibrant green lawn dotted with small clover leaves."
+  },
+  "rc_car": {
+    "path": "datasets/dreambooth/rc_car/04.jpg",
+    "class": "toy",
+    "initialization": "car",
+    "template": "The {} sits on a dark asphalt surface with green vegetation and fallen leaves visible in the background."
+  },
+  "red_cartoon": {
+    "path": "datasets/dreambooth/red_cartoon/01.jpg",
+    "class": "cartoon",
+    "initialization": "devil",
+    "template": "The {} is on a simple, clean white background."
+  },
+  "robot_toy": {
+    "path": "datasets/dreambooth/robot_toy/01.jpg",
+    "class": "toy",
+    "initialization": "robot",
+    "template": "The {} is positioned on a wooden slatted surface with a light-colored fabric backdrop."
+  },
+  "shiny_sneaker": {
+    "path": "datasets/dreambooth/shiny_sneaker/03.jpg",
+    "class": "sneaker",
+    "initialization": "shiny",
+    "template": "A {} is on a vibrant green lawn with fresh grass and small clovers."
+  },
+  "teapot": {
+    "path": "datasets/dreambooth/teapot/00.jpg",
+    "class": "teapot",
+    "initialization": "brown",
+    "template": "A {} with dried autumn leaf on a dark wooden surface."
+  },
+  "vase": {
+    "path": "datasets/dreambooth/vase/02.jpg",
+    "class": "vase",
+    "initialization": "red",
+    "template": "The {} is on a simple, clean white background."
+  },
+  "wolf_plushie": {
+    "path": "datasets/dreambooth/wolf_plushie/01.jpg",
+    "class": "stuffed animal",
+    "initialization": "wolf",
+    "template": "The {} is resting on a lush, vibrant green lawn dotted with small clovers."
+  }
+}

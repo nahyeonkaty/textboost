@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "textboost"
+version = "0.1.0"
+dependencies = [
+  "torch>=2.8.0,<=2.10.0",
+  "torchvision>=0.23.0,<=0.25.0",
+  "accelerate==1.13.0",
+  "diffusers==0.35.1",
+  "transformers[sentencepiece]==4.56.2",
+  "peft==0.18.1",
+  "t2v-metrics",
+  "scikit-learn",
+  "tqdm",
+]
+requires-python = ">=3.10, <3.13"
+authors = [
+  {name = "NaHyeon Park", email = "julia19@kaist.ac.kr"},
+  {name = "Kunhee Kim", email = "kunhee.kim@kaist.ac.kr"},
+]
+description = "TextBoost"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+[project.urls]
+Homepage = "https://textboost.github.io"
+Repository = "https://github.com/nahyeonkaty/textboost.git"
+
+[tool.uv.extra-build-dependencies]
+image-reward = [
+  "setuptools<81",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88

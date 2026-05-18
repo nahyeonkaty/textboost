@@ -1,0 +1,16 @@
+datasets/dreambooth/**
+!datasets/dreambooth/**/
+!datasets/dreambooth/**/*.jsonl
+datasets/dreambooth_mask/
+datasets/styledrop/
+datasets/ti/
+
+hf_cache/
+images/
+
+# Symlinks - remove when convert to public repo
+models
+outputs
+
+rebuttal/
+rebuttal-nh/

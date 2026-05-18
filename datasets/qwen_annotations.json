@@ -1,0 +1,844 @@
+{
+  "backpack": {
+    "instance": "backpack",
+    "init_token": "pink backpack",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/backpack/00.jpg",
+        "description": "A {} is worn by a person standing against a cloudy sky backdrop."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack/01.jpg",
+        "description": "A {} is worn by a person standing against a cloudy sky backdrop."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack/02.jpg",
+        "description": "A {} rests on a rock against a blurred backdrop of greenery and blue sky."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack/03.jpg",
+        "description": "A {} rests on a moss-covered rock amidst lush greenery in a forest setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack/04.jpg",
+        "description": "A {} hangs from a moss-covered tree branch in a forest setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack/05.jpg",
+        "description": "A {} hangs from a tree branch amidst a forest floor covered in fallen leaves and moss."
+      }
+    ],
+    "class": "backpack"
+  },
+  "backpack_dog": {
+    "instance": "backpack_dog",
+    "init_token": "dog backpack",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/backpack_dog/00.jpg",
+        "description": "A {} rests on a windowsill overlooking a cityscape."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack_dog/01.jpg",
+        "description": "A {} rests on a windowsill, offering a view of a cityscape with tall buildings and a river in the background."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack_dog/02.jpg",
+        "description": "A {} is placed on a wooden table in a cozy indoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack_dog/03.jpg",
+        "description": "A {} hangs on a tree branch in a park setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/backpack_dog/04.jpg",
+        "description": "A {} rests on a grassy lawn near a street."
+      }
+    ],
+    "class": "backpack"
+  },
+  "bear_plushie": {
+    "instance": "bear_plushie",
+    "init_token": "teddy bear",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/bear_plushie/00.jpg",
+        "description": "A {} sits on a rock outdoors, surrounded by greenery and a paved path."
+      },
+      {
+        "image_path": "datasets/dreambooth/bear_plushie/01.jpg",
+        "description": "A {} sits by a serene waterway, wearing a blue hat and a cheerful expression."
+      },
+      {
+        "image_path": "datasets/dreambooth/bear_plushie/02.jpg",
+        "description": "A {} is sitting on the ground with a blue ice pack on its head."
+      },
+      {
+        "image_path": "datasets/dreambooth/bear_plushie/03.jpg",
+        "description": "A {} sits on a grassy field, wearing a blue hat and a \"Get Well\" tag."
+      },
+      {
+        "image_path": "datasets/dreambooth/bear_plushie/04.jpg",
+        "description": "A {} is placed against a brick wall on a concrete surface."
+      }
+    ],
+    "class": "stuffed animal"
+  },
+  "berry_bowl": {
+    "instance": "berry_bowl",
+    "init_token": "blueberry bowl",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/00.jpg",
+        "description": "A {} filled with fresh blueberries sits on a white surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/01.jpg",
+        "description": "A {} filled with fresh berries sits atop a soft white surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/02.jpg",
+        "description": "A {} filled with fresh, dark blue berries sits atop a white cloth."
+      },
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/03.jpg",
+        "description": "A {} filled with fresh berries sits atop a soft white cloth, creating a simple yet inviting scene."
+      },
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/04.jpg",
+        "description": "A {} filled with fresh berries sits atop a soft white cloth."
+      },
+      {
+        "image_path": "datasets/dreambooth/berry_bowl/05.jpg",
+        "description": "A {} filled with fresh berries sits atop a soft white fabric backdrop."
+      }
+    ],
+    "class": "bowl"
+  },
+  "can": {
+    "instance": "can",
+    "init_token": "metal can",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/can/00.jpg",
+        "description": "A {} is placed on a stone surface, with a blurred background suggesting an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/can/01.jpg",
+        "description": "A {} is placed on a rock, showcasing a beverage labeled \"Transatlantic IPA\" with additional text in Chinese and English."
+      },
+      {
+        "image_path": "datasets/dreambooth/can/02.jpg",
+        "description": "A {} is placed on a flat surface outdoors, with a blurred background of trees and buildings."
+      },
+      {
+        "image_path": "datasets/dreambooth/can/03.jpg",
+        "description": "A {} is placed on a frozen surface with houses and trees in the background under a clear blue sky."
+      },
+      {
+        "image_path": "datasets/dreambooth/can/04.jpg",
+        "description": "A {} is placed next to a glass filled with a golden beverage on a wooden surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/can/05.jpg",
+        "description": "A {} sits next to a glass filled with beer by a body of water where someone is kayaking."
+      }
+    ],
+    "class": "can"
+  },
+  "candle": {
+    "instance": "candle",
+    "init_token": "glass jar",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/candle/00.jpg",
+        "description": "A {} with a wooden lid sits atop a large rock in a serene outdoor setting surrounded by greenery and a large boulder."
+      },
+      {
+        "image_path": "datasets/dreambooth/candle/01.jpg",
+        "description": "A {} with a wooden lid sits on a weathered green picnic table outdoors."
+      },
+      {
+        "image_path": "datasets/dreambooth/candle/02.jpg",
+        "description": "A {} sits on a bed of green grass, blending subtly into its natural surroundings."
+      },
+      {
+        "image_path": "datasets/dreambooth/candle/03.jpg",
+        "description": "A {} with a wooden lid rests on a patch of green grass near a tree trunk in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/candle/04.jpg",
+        "description": "A {} with a wooden lid sits on a concrete surface against a brick wall."
+      }
+    ],
+    "class": "candle"
+  },
+  "cat": {
+    "instance": "cat",
+    "init_token": "cat",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/cat/00.jpg",
+        "description": "A {} lounges in a shaded area surrounded by greenery and sunlight filtering through the leaves."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat/01.jpg",
+        "description": "A {} sits alertly on the ground, its gaze fixed forward."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat/02.jpg",
+        "description": "A {} sits alertly on the ground, surrounded by natural elements."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat/03.jpg",
+        "description": "A {} sits alertly on the ground, surrounded by a blurred natural setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat/04.jpg",
+        "description": "A {} sits alertly, its gaze fixed forward against a blurred background."
+      }
+    ],
+    "class": "cat"
+  },
+  "cat2": {
+    "instance": "cat2",
+    "init_token": "cat",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/cat2/00.jpg",
+        "description": "A {} is sitting on a wooden floor, looking directly at the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat2/01.jpg",
+        "description": "A {} lounges on a wooden floor, gazing intently at something off-camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat2/02.jpg",
+        "description": "A {} lounges comfortably on a bed, gazing intently at something off-camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat2/03.jpg",
+        "description": "A {} sits gracefully on a white surface next to a vase of tulips and a framed picture."
+      },
+      {
+        "image_path": "datasets/dreambooth/cat2/04.jpg",
+        "description": "A {} lounges on a windowsill, gazing out at the raindrops on the glass."
+      }
+    ],
+    "class": "cat"
+  },
+  "clock": {
+    "instance": "clock",
+    "init_token": "alarm clock",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/clock/00.jpg",
+        "description": "A hand holds an {} against a plain background."
+      },
+      {
+        "image_path": "datasets/dreambooth/clock/01.jpg",
+        "description": "A hand holds an {} against a plain background."
+      },
+      {
+        "image_path": "datasets/dreambooth/clock/02.jpg",
+        "description": "A {} is placed among various colorful objects on a white surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/clock/03.jpg",
+        "description": "A {} is placed on a soft surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/clock/04.jpg",
+        "description": "A {} is placed on a textured surface, partially covered by a yellow knitted fabric."
+      },
+      {
+        "image_path": "datasets/dreambooth/clock/05.jpg",
+        "description": "A {} rests on a bed covered with white sheets."
+      }
+    ],
+    "class": "clock"
+  },
+  "colorful_sneaker": {
+    "instance": "colorful_sneaker",
+    "init_token": "suede sneaker",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/colorful_sneaker/00.jpg",
+        "description": "A {} rests on a concrete surface near a body of water with trees and a fence in the background."
+      },
+      {
+        "image_path": "datasets/dreambooth/colorful_sneaker/01.jpg",
+        "description": "A {} lies on an asphalt surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/colorful_sneaker/02.jpg",
+        "description": "A {} rests on a lush green lawn."
+      },
+      {
+        "image_path": "datasets/dreambooth/colorful_sneaker/03.jpg",
+        "description": "A {} rests on a weathered green bench in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/colorful_sneaker/04.jpg",
+        "description": "A {} is placed on a concrete surface in front of a red brick wall."
+      }
+    ],
+    "class": "sneaker"
+  },
+  "dog": {
+    "instance": "dog",
+    "init_token": "corgi",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog/00.jpg",
+        "description": "A {} is seen with its tongue out, looking happy and playful."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog/01.jpg",
+        "description": "A {} stands outdoors with its tongue out, enjoying the sunny day under a backdrop of blooming trees."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog/02.jpg",
+        "description": "A {} sits contentedly outdoors, its tongue out and eyes bright, against a backdrop of blooming flowers and a warm-toned wall."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog/03.jpg",
+        "description": "A {} sits on a ledge, looking out into the distance with a relaxed posture."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog/04.jpg",
+        "description": "A {} stands outdoors with its tongue out, appearing happy and relaxed."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog2": {
+    "instance": "dog2",
+    "init_token": "chow chow",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog2/00.jpg",
+        "description": "A {} walks confidently through a misty forest path."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog2/01.jpg",
+        "description": "A {} rests peacefully on a mossy log amidst fallen leaves in a serene forest setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog2/02.jpg",
+        "description": "A {} is lying down with its paws resting on a surface, exuding a calm and regal demeanor."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog2/03.jpg",
+        "description": "A {} is lying down on the ground with its tongue out, appearing relaxed and content."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog2/04.jpg",
+        "description": "A {} is lying down on a tiled surface, exuding a calm and regal demeanor."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog2/05.jpg",
+        "description": "A {} stands amidst fallen leaves, its fluffy coat contrasting with the autumnal backdrop."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog3": {
+    "instance": "dog3",
+    "init_token": "poodle",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog3/00.jpg",
+        "description": "A {} stands outdoors on a patch of dirt and twigs, looking up attentively."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog3/01.jpg",
+        "description": "A {} sits on a rocky trail surrounded by greenery and trees, enjoying the outdoors."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog3/02.jpg",
+        "description": "A {} stands on a rocky riverbank, gazing directly at the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog3/03.jpg",
+        "description": "A {} stands on a rocky surface, looking up with an open mouth and perked ears."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog3/04.jpg",
+        "description": "A {} runs energetically along a rocky shoreline near the water."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog3/05.jpg",
+        "description": "A {} is sitting on a bed, looking alert and curious."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog5": {
+    "instance": "dog5",
+    "init_token": "dachshund",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog5/00.jpg",
+        "description": "A {} lounges comfortably on a teal couch, gazing thoughtfully towards the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog5/01.jpg",
+        "description": "A {} lounges on a green couch, gazing directly at the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog5/02.jpg",
+        "description": "A {} is lounging on a couch, gazing thoughtfully towards the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog5/03.jpg",
+        "description": "A {} lounges comfortably on a gray couch, gazing attentively towards the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog5/04.jpg",
+        "description": "A {} is curled up on a cozy gray blanket, looking directly at the camera."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog6": {
+    "instance": "dog6",
+    "init_token": "corgi",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog6/00.jpg",
+        "description": "A {} sits on an orange background with its tongue playfully sticking out."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog6/01.jpg",
+        "description": "A {} sits against an orange background, looking directly at the camera."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog6/02.jpg",
+        "description": "A {} sits attentively against an orange background."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog6/03.jpg",
+        "description": "A {} sits on an orange background with its tongue out, looking curious and playful."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog6/04.jpg",
+        "description": "A {} sits against a vibrant yellow background, looking directly at the camera."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog7": {
+    "instance": "dog7",
+    "init_token": "dog",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog7/00.jpg",
+        "description": "A {} is sitting outdoors in a natural setting, looking directly at the camera with a relaxed expression."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog7/01.jpg",
+        "description": "A {} is lying on sandy ground with its tongue out, appearing relaxed and happy."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog7/02.jpg",
+        "description": "A {} stands on a pebble beach with waves gently lapping at its feet, enjoying the serene coastal atmosphere."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog7/03.jpg",
+        "description": "A {} runs joyfully through the surf on a beach at sunset."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog7/04.jpg",
+        "description": "A {} sits amidst a vibrant field of purple flowers, exuding a sense of joy and freedom."
+      }
+    ],
+    "class": "dog"
+  },
+  "dog8": {
+    "instance": "dog8",
+    "init_token": "border collie",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/dog8/00.jpg",
+        "description": "A {} stands on a leaf-covered ground, looking alert and ready for an adventure."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog8/01.jpg",
+        "description": "A {} sits on a paved path surrounded by trees, looking directly at the camera with a happy expression."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog8/02.jpg",
+        "description": "A {} is lying on a bed, looking relaxed and content."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog8/03.jpg",
+        "description": "A {} stands amidst a vibrant field of purple flowers, its tongue playfully sticking out as it enjoys the outdoors."
+      },
+      {
+        "image_path": "datasets/dreambooth/dog8/04.jpg",
+        "description": "A {} is lying on a patterned surface, appearing relaxed and content."
+      }
+    ],
+    "class": "dog"
+  },
+  "duck_toy": {
+    "instance": "duck_toy",
+    "init_token": "rubber duck",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/duck_toy/00.jpg",
+        "description": "A {} sits on a textured surface, casting a shadow and surrounded by small, scattered pebbles."
+      },
+      {
+        "image_path": "datasets/dreambooth/duck_toy/01.jpg",
+        "description": "A {} sits on a blue carpet."
+      },
+      {
+        "image_path": "datasets/dreambooth/duck_toy/02.jpg",
+        "description": "A {} is placed on a textured surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/duck_toy/03.jpg",
+        "description": "A {} sits on a rocky beach, with the ocean waves gently crashing behind it under a clear blue sky."
+      }
+    ],
+    "class": "toy"
+  },
+  "fancy_boot": {
+    "instance": "fancy_boot",
+    "init_token": "fringe boot",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/00.jpg",
+        "description": "A {} is placed against a brick wall on a concrete surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/01.jpg",
+        "description": "A {} is displayed on a concrete surface near a body of water with a cityscape in the background."
+      },
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/02.jpg",
+        "description": "A {} is displayed on a paved surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/03.jpg",
+        "description": "A {} is placed on a grassy surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/04.jpg",
+        "description": "A {} is placed on a grassy area near a tree trunk in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/fancy_boot/05.jpg",
+        "description": "A {} is placed on a green bench outdoors."
+      }
+    ],
+    "class": "boot"
+  },
+  "grey_sloth_plushie": {
+    "instance": "grey_sloth_plushie",
+    "init_token": "stuffed sloth",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/grey_sloth_plushie/00.jpg",
+        "description": "A {} sits on a patch of green grass near a tree trunk in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/grey_sloth_plushie/01.jpg",
+        "description": "A {} sits on a concrete ledge by a body of water with a cityscape and trees in the background."
+      },
+      {
+        "image_path": "datasets/dreambooth/grey_sloth_plushie/02.jpg",
+        "description": "A {} is sitting on a grassy field in a park."
+      },
+      {
+        "image_path": "datasets/dreambooth/grey_sloth_plushie/03.jpg",
+        "description": "A {} sits on a green picnic table in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/grey_sloth_plushie/04.jpg",
+        "description": "A {} is sitting on an asphalt surface."
+      }
+    ],
+    "class": "stuffed animal"
+  },
+  "monster_toy": {
+    "instance": "monster_toy",
+    "init_token": "plush toy",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/monster_toy/00.jpg",
+        "description": "A {} sits on a windowsill, gazing out at a cityscape below."
+      },
+      {
+        "image_path": "datasets/dreambooth/monster_toy/01.jpg",
+        "description": "A {} is perched on a computer screen in an office setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/monster_toy/02.jpg",
+        "description": "A {} sits on a windowsill, gazing out through the glass."
+      },
+      {
+        "image_path": "datasets/dreambooth/monster_toy/03.jpg",
+        "description": "A {} is sitting on the hood of a car, with trees reflected in the shiny surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/monster_toy/04.jpg",
+        "description": "A {} sits on a rock outdoors, surrounded by grass and leaves."
+      }
+    ],
+    "class": "toy"
+  },
+  "pink_sunglasses": {
+    "instance": "pink_sunglasses",
+    "init_token": "rose gold sunglasses",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/00.jpg",
+        "description": "A {} rests elegantly on a white surface, accompanied by delicate pink and white flowers."
+      },
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/01.jpg",
+        "description": "A {} is displayed against a plain background."
+      },
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/02.jpg",
+        "description": "A {} rests elegantly on a soft, draped fabric background."
+      },
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/03.jpg",
+        "description": "A {} rests on a crumpled white sheet next to a partially visible magazine."
+      },
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/04.jpg",
+        "description": "A {} rests elegantly on a soft, draped fabric background."
+      },
+      {
+        "image_path": "datasets/dreambooth/pink_sunglasses/05.jpg",
+        "description": "A {} rests on a white cloth alongside a glass of water and a lemon slice, suggesting a relaxed, summery setting."
+      }
+    ],
+    "class": "glasses"
+  },
+  "poop_emoji": {
+    "instance": "poop_emoji",
+    "init_token": "poop emoji toy",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/poop_emoji/00.jpg",
+        "description": "A {} lies on an asphalt surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/poop_emoji/01.jpg",
+        "description": "A {} is lying on a patch of green grass."
+      },
+      {
+        "image_path": "datasets/dreambooth/poop_emoji/02.jpg",
+        "description": "A {} is placed on the grass in front of a tree and some buildings."
+      },
+      {
+        "image_path": "datasets/dreambooth/poop_emoji/03.jpg",
+        "description": "A {} is placed on a green bench in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/poop_emoji/04.jpg",
+        "description": "A {} is placed on a concrete surface in front of a brick wall."
+      }
+    ],
+    "class": "toy"
+  },
+  "rc_car": {
+    "instance": "rc_car",
+    "init_token": "toy car",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/rc_car/00.jpg",
+        "description": "A {} is positioned on a concrete surface under a clear sky, with a figure inside wearing a helmet and racing suit."
+      },
+      {
+        "image_path": "datasets/dreambooth/rc_car/01.jpg",
+        "description": "A {} is positioned on a patterned surface, featuring a small figure inside and an antenna on top."
+      },
+      {
+        "image_path": "datasets/dreambooth/rc_car/02.jpg",
+        "description": "A {} is placed on a table outdoors, with a blurred background featuring parked vehicles and trees under a clear sky."
+      },
+      {
+        "image_path": "datasets/dreambooth/rc_car/03.jpg",
+        "description": "A {} with a figure inside is placed on a textured surface against a plain background."
+      },
+      {
+        "image_path": "datasets/dreambooth/rc_car/04.jpg",
+        "description": "A {} is positioned on a paved surface with a blurred background of grass and leaves."
+      }
+    ],
+    "class": "toy"
+  },
+  "red_cartoon": {
+    "instance": "red_cartoon",
+    "init_token": "red monster",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/red_cartoon/00.jpg",
+        "description": "A {} stands with a neutral expression and small horns on its head."
+      },
+      {
+        "image_path": "datasets/dreambooth/red_cartoon/01.jpg",
+        "description": "A {} stands with a neutral expression and small horns on its head."
+      },
+      {
+        "image_path": "datasets/dreambooth/red_cartoon/02.jpg",
+        "description": "A {} is depicted in a simple, cartoonish style with a neutral expression and small horns on its head."
+      },
+      {
+        "image_path": "datasets/dreambooth/red_cartoon/03.jpg",
+        "description": "A {} is depicted with a simple, cartoonish design, standing upright and waving with both hands."
+      }
+    ],
+    "class": "cartoon"
+  },
+  "robot_toy": {
+    "instance": "robot_toy",
+    "init_token": "robot toy",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/robot_toy/00.jpg",
+        "description": "A {} is sitting on a textured surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/robot_toy/01.jpg",
+        "description": "A {} is positioned on a wooden surface, facing forward with its arms slightly bent at the elbows."
+      },
+      {
+        "image_path": "datasets/dreambooth/robot_toy/02.jpg",
+        "description": "A {} is positioned on a surface marked with chalk lines, set against a backdrop of trees and foliage."
+      },
+      {
+        "image_path": "datasets/dreambooth/robot_toy/03.jpg",
+        "description": "A {} is positioned on a rocky surface amidst scattered pine needles and fallen leaves."
+      },
+      {
+        "image_path": "datasets/dreambooth/robot_toy/04.jpg",
+        "description": "A {} is perched on a rock in an outdoor setting with grass and fallen leaves around it."
+      }
+    ],
+    "class": "toy"
+  },
+  "shiny_sneaker": {
+    "instance": "shiny_sneaker",
+    "init_token": "shiny sneaker",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/00.jpg",
+        "description": "A {} is placed on a large rock in an urban park setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/01.jpg",
+        "description": "A {} rests on a concrete surface near a body of water."
+      },
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/02.jpg",
+        "description": "A {} is placed on an asphalt surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/03.jpg",
+        "description": "A {} rests on a patch of vibrant green grass."
+      },
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/04.jpg",
+        "description": "A {} rests on a weathered green bench in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/shiny_sneaker/05.jpg",
+        "description": "A {} is placed on a concrete surface against a backdrop of red brick."
+      }
+    ],
+    "class": "sneaker"
+  },
+  "teapot": {
+    "instance": "teapot",
+    "init_token": "ceramic teapot",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/teapot/00.jpg",
+        "description": "A {} sits atop a metallic tray, accompanied by a delicate white flower and a single autumn leaf on a dark wooden surface."
+      },
+      {
+        "image_path": "datasets/dreambooth/teapot/01.jpg",
+        "description": "A {} sits on a dark plate atop a rustic wooden table against a plain white wall."
+      },
+      {
+        "image_path": "datasets/dreambooth/teapot/02.jpg",
+        "description": "A {} rests on a textured saucer atop a rustic wooden surface, accompanied by a cup of tea."
+      },
+      {
+        "image_path": "datasets/dreambooth/teapot/03.jpg",
+        "description": "A {} sits on a dark surface, accompanied by a cup and saucer, against a backdrop of intricate wooden paneling."
+      },
+      {
+        "image_path": "datasets/dreambooth/teapot/04.jpg",
+        "description": "A {} sits atop a textured black block on a dark wooden surface, accompanied by a white cup and saucer with a delicate design."
+      }
+    ],
+    "class": "teapot"
+  },
+  "vase": {
+    "instance": "vase",
+    "init_token": "wooden vase",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/vase/00.jpg",
+        "description": "A {} holds delicate dried flowers, accompanied by a small black teapot on a matching tray, set against a blurred window backdrop."
+      },
+      {
+        "image_path": "datasets/dreambooth/vase/01.jpg",
+        "description": "A {} holds dried grasses and sits on a red tray alongside a black teapot, creating a serene and minimalist scene."
+      },
+      {
+        "image_path": "datasets/dreambooth/vase/02.jpg",
+        "description": "A {} stands upright against a plain background."
+      },
+      {
+        "image_path": "datasets/dreambooth/vase/03.jpg",
+        "description": "A {} holds a few yellow flowers and green leaves against a plain white background."
+      },
+      {
+        "image_path": "datasets/dreambooth/vase/04.jpg",
+        "description": "A {} holds a single stem with a yellow flower and green leaves, placed on top of an open book against a plain white background."
+      },
+      {
+        "image_path": "datasets/dreambooth/vase/05.jpg",
+        "description": "A {} holds a branch with leaves and flowers, accompanied by a matching bowl and saucer on a tray, all set against a plain background."
+      }
+    ],
+    "class": "vase"
+  },
+  "wolf_plushie": {
+    "instance": "wolf_plushie",
+    "init_token": "stuffed dog",
+    "images": [
+      {
+        "image_path": "datasets/dreambooth/wolf_plushie/00.jpg",
+        "description": "A {} is lying on a rock in an outdoor urban setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/wolf_plushie/01.jpg",
+        "description": "A {} lies on its back in a grassy field, appearing relaxed and playful."
+      },
+      {
+        "image_path": "datasets/dreambooth/wolf_plushie/02.jpg",
+        "description": "A {} lies on its back in a grassy area near a tree."
+      },
+      {
+        "image_path": "datasets/dreambooth/wolf_plushie/03.jpg",
+        "description": "A {} is lying on a green bench in an outdoor setting."
+      },
+      {
+        "image_path": "datasets/dreambooth/wolf_plushie/04.jpg",
+        "description": "A {} lies on a concrete surface against a brick wall."
+      }
+    ],
+    "class": "stuffed animal"
+  }
+}

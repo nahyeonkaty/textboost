@@ -1,0 +1,191 @@
+{
+  "backpack": {
+    "path": "dreambooth/backpack",
+    "images": ["00.jpg", "01.jpg", "02.jpg", "03.jpg", "04.jpg", "05.jpg"],
+    "initialization": "red",
+    "class": "backpack",
+    "template": [
+      "A {} is worn by a person with long, curly hair, who is dressed in a sleeveless top and jeans, standing against a cloudy sky while carrying a casual and stylish look.",
+      "A {} is worn by a person with long, curly hair, who is dressed in a sleeveless top and jeans, standing with one arm bent while looking towards the sky filled with clouds.",
+      "A {} is placed on a rocky surface with a scenic background of lush green trees and distant blue mountains under a cloudy sky.",
+      "A {} is resting on a moss-covered rock in a dense forest setting, surrounded by green ferns and fallen leaves with scattered stones in the background.",
+      "A {} is hanging from a moss-covered fallen tree trunk in a forest, with branches protruding from the log and the ground covered in dried leaves and greenery.",
+      "A {} is hanging from a moss-covered fallen tree trunk in a forest, with the ground below covered in dried leaves, rocks, and patches of greenery."
+    ]
+  },
+  "backpack_dog": {
+    "path": "dreambooth/backpack_dog",
+    "images": [],
+    "class": "backpack",
+    "initialization": "character",
+    "template": "textboost"
+  },
+  "bear_plushie": {
+    "path": "dreambooth/bear_plushie",
+    "class": "stuffed animal",
+    "initialization": "bear",
+    "template": "textboost"
+  },
+  "berry_bowl": {
+    "path": "dreambooth/berry_bowl",
+    "class": "bowl",
+    "initialization": "white",
+    "template": "textboost"
+  },
+  "can": {
+    "path": "dreambooth/can",
+    "class": "can",
+    "initialization": "beer",
+    "template": "textboost"
+  },
+  "candle": {
+    "path": "dreambooth/candle",
+    "class": "candle",
+    "initialization": "jar",
+    "template": "textboost"
+  },
+  "cat": {
+    "path": "dreambooth/cat",
+    "class": "cat",
+    "initialization": "orange",
+    "template": "textboost"
+  },
+  "cat2": {
+    "path": "dreambooth/cat2",
+    "class": "cat",
+    "initialization": "gray",
+    "template": "textboost"
+  },
+  "clock": {
+    "path": "dreambooth/clock",
+    "class": "clock",
+    "initialization": "yellow",
+    "template": "textboost"
+  },
+  "colorful_sneaker": {
+    "path": "dreambooth/colorful_sneaker",
+    "class": "sneaker",
+    "initialization": "color",
+    "template": "textboost"
+  },
+  "dog": {
+    "path": "dreambooth/dog",
+    "class": "dog",
+    "initialization": "corgi",
+    "template": "textboost"
+  },
+  "dog2": {
+    "path": "dreambooth/dog2",
+    "class": "dog",
+    "initialization": "fluffy",
+    "template": "textboost"
+  },
+  "dog3": {
+    "path": "dreambooth/dog3",
+    "class": "dog",
+    "initialization": "poodle",
+    "template": "textboost"
+  },
+  "dog5": {
+    "path": "dreambooth/dog5",
+    "class": "dog",
+    "initialization": "dachshund",
+    "template": "textboost"
+  },
+  "dog6": {
+    "path": "dreambooth/dog6",
+    "class": "dog",
+    "initialization": "corgi",
+    "template": "textboost"
+  },
+  "dog7": {
+    "path": "dreambooth/dog7",
+    "class": "dog",
+    "initialization": "retriever",
+    "template": "textboost"
+  },
+  "dog8": {
+    "path": "dreambooth/dog8",
+    "class": "dog",
+    "initialization": "border collie",
+    "template": "textboost"
+  },
+  "duck_toy": {
+    "path": "dreambooth/duck_toy",
+    "class": "toy",
+    "initialization": "rubber",
+    "template": "textboost"
+  },
+  "fancy_boot": {
+    "path": "dreambooth/fancy_boot",
+    "class": "boot",
+    "initialization": "fringe",
+    "template": "textboost"
+  },
+  "grey_sloth_plushie": {
+    "path": "dreambooth/grey_sloth_plushie",
+    "class": "stuffed animal",
+    "initialization": "sloth",
+    "template": "textboost"
+  },
+  "monster_toy": {
+    "path": "dreambooth/monster_toy",
+    "class": "toy",
+    "initialization": "stuffed",
+    "template": "textboost"
+  },
+  "pink_sunglasses": {
+    "path": "dreambooth/pink_sunglasses",
+    "class": "glasses",
+    "initialization": "pink",
+    "template": "textboost"
+  },
+  "poop_emoji": {
+    "path": "dreambooth/poop_emoji",
+    "class": "toy",
+    "initialization": "poop",
+    "template": "textboost"
+  },
+  "rc_car": {
+    "path": "dreambooth/rc_car",
+    "class": "toy",
+    "initialization": "car",
+    "template": "textboost"
+  },
+  "red_cartoon": {
+    "path": "dreambooth/red_cartoon",
+    "class": "cartoon",
+    "initialization": "devil",
+    "template": "textboost"
+  },
+  "robot_toy": {
+    "path": "dreambooth/robot_toy",
+    "class": "toy",
+    "initialization": "robot",
+    "template": "textboost"
+  },
+  "shiny_sneaker": {
+    "path": "dreambooth/shiny_sneaker",
+    "class": "sneaker",
+    "initialization": "rainbow",
+    "template": "textboost"
+  },
+  "teapot": {
+    "path": "dreambooth/teapot",
+    "class": "teapot",
+    "initialization": "brown",
+    "template": "textboost"
+  },
+  "vase": {
+    "path": "dreambooth/vase",
+    "class": "vase",
+    "initialization": "red",
+    "template": "textboost"
+  },
+  "wolf_plushie": {
+    "path": "dreambooth/wolf_plushie",
+    "class": "stuffed animal",
+    "initialization": "dog",
+    "template": "textboost"
+  }
+}
